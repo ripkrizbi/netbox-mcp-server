@@ -28,6 +28,7 @@ import { join } from "node:path";
 import zlib from "node:zlib";
 
 import type { NetBoxConfig } from "../config.js";
+import { authorizationHeader } from "../auth.js";
 import { isOpenApiDocument, type OpenApiDocument } from "./openapi.js";
 
 const SCHEMA_PATH = "/schema/?format=json";
@@ -98,7 +99,7 @@ interface StatusInfo {
 
 function authHeaders(config: NetBoxConfig): Record<string, string> {
   return {
-    Authorization: `Token ${config.token}`,
+    Authorization: authorizationHeader(config.token),
     Accept: "application/vnd.oai.openapi+json, application/json",
     "Accept-Encoding": "gzip, deflate",
     "User-Agent": "netbox-mcp",

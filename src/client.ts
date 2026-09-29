@@ -10,6 +10,7 @@ import https from "node:https";
 
 import { loadConfig, NetBoxConfig } from "./config.js";
 import { DEFAULT_TIMEOUT_MS } from "./constants.js";
+import { authorizationHeader } from "./auth.js";
 
 let cachedClient: NetBoxClient | null = null;
 
@@ -30,7 +31,7 @@ export class NetBoxClient {
       baseURL: config.apiUrl,
       timeout: DEFAULT_TIMEOUT_MS,
       headers: {
-        Authorization: `Token ${config.token}`,
+        Authorization: authorizationHeader(config.token),
         Accept: "application/json",
         "Content-Type": "application/json",
       },
