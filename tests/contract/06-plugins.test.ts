@@ -8,30 +8,16 @@
  * `Brief*`/`Writable*` naming in third-party serializers, the FK reverse
  * index working across plugin boundaries — is untested.
  *
- * Two concrete things this codebase already asserts about plugins and should
- * not:
- *
- *  - `docs/compatibility.md` says netbox-inventory "has tools registered for
- *    it".
- *  - `src/tools/layered/search.ts` hard-codes `plugins/inventory/assets` in
- *    its fixed fan-out list. That endpoint is not derived from anything; if
- *    the plugin's API base is not `inventory`, every global search pays for a
- *    404 on every call.
- *
  * This file reports what the connected instance actually exposes.
  */
 
 import { beforeAll, it } from "vitest";
 
 import type { SchemaRegistry } from "../../src/schema/registry.js";
-import { parseJson, preview } from "./http.js";
 import { api, derivedRegistry, readPreflightState, record } from "./harness.js";
 import { describeContract } from "./expectations.js";
 
 const SECTION = "9. Plugins";
-
-/** Endpoints this codebase names without deriving them. */
-const HARD_CODED = ["plugins/inventory/assets"];
 
 describeContract(SECTION, () => {
   let registry: SchemaRegistry;
@@ -89,45 +75,6 @@ describeContract(SECTION, () => {
             "types from them. That is a derivation bug in classifyPath/objectTypeKey."
           : undefined,
     });
-  });
-
-  it("probes the plugin API root and the hard-coded search targets", async () => {
-    const root = await api("/plugins/");
-    record({
-      section: SECTION,
-      check: "GET /api/plugins/",
-      derived: "unverified",
-      actual: `HTTP ${root.status}: ${preview(parseJson(root.body), 200)}`,
-      verdict: "info",
-    });
-
-    for (const endpoint of HARD_CODED) {
-      const result = await api(`/${endpoint}/?limit=1`);
-      const derivedKey = [...registry.types.values()].find(
-        (entry) => entry.summary.endpoint === endpoint,
-      );
-      record({
-        section: SECTION,
-        check: `hard-coded search target /api/${endpoint}/`,
-        derived:
-          "search.ts fans every netbox_global_search out to this endpoint whether or not the " +
-          "plugin is installed",
-        actual:
-          `HTTP ${result.status}` +
-          (result.status === 200
-            ? ` — present${derivedKey ? ` and derived as ${derivedKey.summary.object_type}` : ", but NOT in the derived registry"}`
-            : " — absent"),
-        verdict: "info",
-        note:
-          result.status === 404
-            ? "Every netbox_global_search call on this instance pays a round-trip for a 404 " +
-              "here. The target list should come from the registry, not from a constant."
-            : derivedKey === undefined && result.status === 200
-              ? "The endpoint answers but the registry does not contain it, so netbox_discover " +
-                "and netbox_read cannot reach it while netbox_global_search can."
-              : undefined,
-      });
-    }
   });
 
   it("records how plugin write schemas resolve", () => {

@@ -17,6 +17,7 @@
 import { createHash } from "node:crypto";
 import { readFileSync, writeFileSync } from "node:fs";
 
+import { authorizationHeader } from "../../src/auth.js";
 import { buildRegistry, type SchemaRegistry } from "../../src/schema/registry.js";
 import { isOpenApiDocument, type OpenApiDocument } from "../../src/schema/openapi.js";
 import {
@@ -101,7 +102,7 @@ export function api(path: string, options: ApiOptions = {}): Promise<HttpResult>
     Accept: options.accept ?? "application/json",
   };
   if (options.anonymous !== true) {
-    headers["Authorization"] = `Token ${options.token ?? configured.token}`;
+    headers["Authorization"] = authorizationHeader(options.token ?? configured.token);
   }
   if (options.body !== undefined) headers["Content-Type"] = "application/json";
   return request(`${configured.apiUrl}${path}`, {

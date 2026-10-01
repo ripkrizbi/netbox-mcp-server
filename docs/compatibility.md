@@ -86,7 +86,7 @@ cannot be used by any client that only speaks HTTP.
 | ----------------------- | ----------------------------------------------------------------------- |
 | Contract-tested against | **NetBox 4.6.0**, with `netbox_inventory` 2.6.0. 435 checks, 0 defects. |
 | Known-good range        | 4.6.0 only. See below — one version is not a range.                     |
-| Authentication          | API token, `Authorization: Token <token>`.                              |
+| Authentication          | API token; legacy tokens use `Authorization: Token <token>`, while NetBox v2 `nbt_...` tokens use `Authorization: Bearer <token>`. |
 
 **Response shapes differ across NetBox versions.** One instance has been tested.
 Please include your NetBox version in any bug report.
@@ -155,9 +155,10 @@ write schemas — including the two that need the `Writable<Model>Request` form
 (`plugins.inventory.assetrole` and `plugins.inventory.inventoryitemgroup`).
 
 That is one plugin. A plugin that names its endpoints differently, or nests them
-more deeply, has never been tried. `netbox_global_search` also still names
-`plugins/inventory/assets` as a fixed target rather than deriving it, so global
-search will attempt that endpoint on an instance without the plugin.
+That is one plugin. A plugin that names its endpoints differently, or nests them
+more deeply, has never been tried. The layered search surface now derives its
+targets from the connected instance schema, so plugin endpoints are searched
+when the instance exposes them.
 
 ## Known limitations
 

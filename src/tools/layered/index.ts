@@ -26,7 +26,7 @@ import { registerLayeredSearch } from "./search.js";
 import { registerWrite } from "./write.js";
 
 export function registerLayeredTools(server: McpServer, schema: SchemaProvider): void {
-  registerLayeredSearch(server);
+  registerLayeredSearch(server, schema);
   registerDiscover(server, schema);
   registerDescribe(server, schema);
   registerRead(server, schema);

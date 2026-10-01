@@ -64,7 +64,7 @@ Each observation carries a verdict:
 | `03-fields-and-enums.test.ts`      | Fields the schema declares that a real object omits, and fields a real object carries that the schema never declares. Every returned enum value against the derived enum, case-sensitively. |
 | `04-filters.test.ts`               | A summarised filter really filters; what NetBox does with an **unknown** query parameter (ignore vs 400 — this decides how tolerant `netbox_read` may be); `limit=1000`; `brief=true`.      |
 | `05-error-contract.test.ts`        | Real status codes for a bad token, no token, a missing object, a missing endpoint — and the write refusals below.                                                                           |
-| `06-plugins.test.ts`               | Which plugins and `/api/plugins/**` paths this instance has, and whether the hard-coded `plugins/inventory/assets` search target exists.                                                    |
+| `06-plugins.test.ts`               | Which plugins and `/api/plugins/**` paths this instance has, and how plugin object types and write schemas are derived. |
 
 ## Why the write probes cannot mutate anything
 

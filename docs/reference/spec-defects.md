@@ -13,14 +13,14 @@ the NetBox instance.
 
 |                     |                              |
 | ------------------- | ---------------------------- |
-| Generated           | 2026-08-17T21:52:08.234Z |
+| Generated           | 2026-10-01T15:47:44.506Z |
 | Instance            | https://<redacted> (set NETBOX_CONTRACT_INCLUDE_HOST=1 to record the host) |
-| NetBox, /api/status/ | 4.6.0 |
-| NetBox, schema info.version | 4.6.0 (4.6) |
+| NetBox, /api/status/ | 4.7.1 |
+| NetBox, schema info.version | 4.7.1 (4.7) |
 | Token capability    | GET /api/users/tokens/ — matched this token by the nbt_<identifier> segment; write_enabled = false |
-| Outcome             | 0 defect(s) across 435 check(s) |
+| Outcome             | 0 defect(s) across 326 check(s) |
 
-**0 defect(s)**, 391 match(es), 40 recorded observation(s), 4 not verifiable here — 435 check(s) total.
+**0 defect(s)**, 265 match(es), 23 recorded observation(s), 38 not verifiable here — 326 check(s) total.
 
 ## Defects
 
@@ -35,10 +35,44 @@ that type, or the endpoint is not installed. They remain unverified assumptions.
 
 | Check | Why |
 | ----- | --- |
+| GET /api/core/data-sources/ (core.datasource) | HTTP 403 — this token may not read it |
+| GET /api/extras/config-context-profiles/ (extras.configcontextprofile) | HTTP 403 — this token may not read it |
+| GET /api/extras/config-contexts/ (extras.configcontext) | HTTP 403 — this token may not read it |
+| GET /api/extras/config-templates/ (extras.configtemplate) | HTTP 403 — this token may not read it |
+| GET /api/extras/custom-links/ (extras.customlink) | HTTP 403 — this token may not read it |
+| GET /api/extras/event-rules/ (extras.eventrule) | HTTP 403 — this token may not read it |
+| GET /api/extras/export-templates/ (extras.exporttemplate) | HTTP 403 — this token may not read it |
+| GET /api/extras/notification-groups/ (extras.notificationgroup) | HTTP 403 — this token may not read it |
+| GET /api/extras/saved-filters/ (extras.savedfilter) | HTTP 403 — this token may not read it |
+| GET /api/extras/table-configs/ (extras.tableconfig) | HTTP 403 — this token may not read it |
+| GET /api/extras/webhooks/ (extras.webhook) | HTTP 403 — this token may not read it |
+| GET /api/users/groups/ (users.group) | HTTP 403 — this token may not read it |
+| GET /api/users/owner-groups/ (users.ownergroup) | HTTP 403 — this token may not read it |
+| GET /api/users/owners/ (users.owner) | HTTP 403 — this token may not read it |
+| GET /api/users/permissions/ (users.permission) | HTTP 403 — this token may not read it |
+| GET /api/users/users/ (users.user) | HTTP 403 — this token may not read it |
+| dcim.device field set | not checked — the instance holds 0 object(s) of this type |
+| dcim.devicetype field set | not checked — the instance holds 0 object(s) of this type |
+| dcim.devicerole field set | not checked — the instance holds 0 object(s) of this type |
+| dcim.manufacturer field set | not checked — the instance holds 0 object(s) of this type |
+| dcim.rack field set | not checked — the instance holds 0 object(s) of this type |
+| dcim.interface field set | not checked — the instance holds 0 object(s) of this type |
+| dcim.cable field set | not checked — the instance holds 0 object(s) of this type |
+| dcim.location field set | not checked — the instance holds 0 object(s) of this type |
+| ipam.ipaddress field set | not checked — the instance holds 0 object(s) of this type |
+| ipam.vrf field set | not checked — the instance holds 0 object(s) of this type |
 | ipam.aggregate field set | not checked — the instance holds 0 object(s) of this type |
-| users.permission field set | not checked — the instance holds 0 object(s) of this type |
+| tenancy.tenant field set | not checked — the instance holds 0 object(s) of this type |
+| virtualization.virtualmachine field set | not checked — the instance holds 0 object(s) of this type |
+| virtualization.cluster field set | not checked — the instance holds 0 object(s) of this type |
+| circuits.circuit field set | not checked — the instance holds 0 object(s) of this type |
+| circuits.provider field set | not checked — the instance holds 0 object(s) of this type |
+| extras.tag field set | not checked — the instance holds 0 object(s) of this type |
+| users.user field set | not checked — list returned HTTP 403 |
+| users.permission field set | not checked — list returned HTTP 403 |
 | circuits.circuitgroupassignment field set | not checked — the instance holds 0 object(s) of this type |
 | circuits.circuitgroup field set | not checked — the instance holds 0 object(s) of this type |
+| plugin write-schema resolution | not checked — no plugin object types derived on this instance |
 
 ## Full log
 
@@ -48,168 +82,162 @@ Everything the suite looked at, including the checks that passed.
 
 | | Check | Derived | Actual |
 | --- | ----- | ------- | ------ |
-| INFO | schema Content-Type | application/vnd.oai.openapi+json (§1.2 — the loader must NOT gate on application/json) | application/vnd.oai.openapi+json |
+| INFO | schema Content-Type | application/vnd.oai.openapi+json (§1.2 — the loader must NOT gate on application/json) | application/vnd.oai.openapi+json (from cache) |
 | INFO | schema Content-Encoding | gzip; §1.2 calls compression 'not optional at this size' | none — the body was transferred uncompressed |
-| INFO | schema document size | 6-13 MB from a live instance; 12.9 MB pretty-printed upstream (§1.3) | 12431579 bytes (12.43 MB) |
-| INFO | schema info.version | a NetBox version string, e.g. 4.6.7 | 4.6.0 (4.6) |
-| INFO | schema component count | 1043 component schemas on stock 4.6.7 | 864 components, openapi 3.0.3 |
-| INFO | /api/status/ netbox-version | a version string; netbox-docker #1582 says it can be null (§1.4) | 4.6.0 |
-| INFO | /api/status/ version agrees with schema info.version | the same version; the provider prefers /api/status/ when both are present | status=4.6.0, info.version=4.6.0 (4.6) |
-| INFO | /api/status/ other fields | django-version, python-version, plugins, rq-workers-running (§1.4) | {"django-version":"6.0.4","hostname":"netbox","installed_apps":{"django_filters":"25.2","django_prometheus":"2.4.0","django_rq":"4.1.0","django_tables2":"2.8.0","drf_spectacular":"0.29.0","drf_spectacular_sidecar":"2026.5.1","mptt":"0.18.0… |
-| OK | GET /api/schema/?format=json is reachable | HTTP 200 carrying an OpenAPI document; the loader has no bundled fallback | HTTP 200 OK in 7599 ms |
-| OK | schema response has an OpenAPI `paths` object | `isOpenApiDocument` requires a non-null `paths` object | paths is object with 338 entries |
+| INFO | schema document size | 6-13 MB from a live instance; 12.9 MB pretty-printed upstream (§1.3) | 14622022 bytes (14.62 MB), recorded at fetch time |
+| INFO | schema info.version | a NetBox version string, e.g. 4.6.7 | 4.7.1 (4.7) |
+| INFO | schema component count | 1043 component schemas on stock 4.6.7 | 1111 components, openapi 3.0.3 |
+| INFO | /api/status/ netbox-version | a version string; netbox-docker #1582 says it can be null (§1.4) | 4.7.1 |
+| INFO | /api/status/ version agrees with schema info.version | the same version; the provider prefers /api/status/ when both are present | status=4.7.1, info.version=4.7.1 (4.7) |
+| INFO | /api/status/ other fields | django-version, python-version, plugins, rq-workers-running (§1.4) | {"django-version":"6.1.1","hostname":"netbox","installed_apps":{"django_filters":"26.1","django_prometheus":"2.4.0","django_rq":"4.2.0","django_tables2":"3.0.1","drf_spectacular":"0.30.0","drf_spectacular_sidecar":"2026.9.1","mptt":"0.18.0… |
+| OK | GET /api/schema/?format=json is reachable | HTTP 200 carrying an OpenAPI document; the loader has no bundled fallback | HTTP 200 (replayed from this run's on-disk cache) |
+| OK | schema response has an OpenAPI `paths` object | `isOpenApiDocument` requires a non-null `paths` object | paths is object with 322 entries |
 | OK | GET /api/status/ is reachable with this token | HTTP 200; the loader uses it for the cache key and the reported version | HTTP 200 OK |
 
 ### 2. Registry vs reality
 
 | | Check | Derived | Actual |
 | --- | ----- | ------- | ------ |
-| INFO | registry diagnostics | stock 4.6.7: 308 paths, 138 collections, 133 details, 126 object types, 12 excluded | 338 paths, 150 collections, 145 details, 138 object types, 12 collections excluded |
-| INFO | collections excluded from the registry | the 12 non-object-type collections listed in the derivation doc §2.7 — several of them useful read-only endpoints (core/object-changes, core/jobs) | /api/core/background-queues/, /api/core/background-tasks/, /api/core/background-workers/, /api/core/data-files/, /api/core/jobs/, /api/core/object-changes/, /api/core/object-types/, /api/dcim/cable-terminations/, /api/dcim/connected-device/, /api/extras/dashboard/, /api/extras/tagged-objects/, /api/users/config/ |
-| INFO | /api/ paths classified as neither collection nor detail | 37 on stock 4.6.7 — the sub-resource actions and 2-segment endpoints of §2.7 | 43 paths |
-| INFO | endpoint sweep coverage | 138 derived object types | 138 probed; 138 OK, 0 not found, 0 forbidden, 0 server errors |
+| N/A | GET /api/core/data-sources/ (core.datasource) | HTTP 200 | HTTP 403 — this token may not read it |
+| N/A | GET /api/extras/config-context-profiles/ (extras.configcontextprofile) | HTTP 200 | HTTP 403 — this token may not read it |
+| N/A | GET /api/extras/config-contexts/ (extras.configcontext) | HTTP 200 | HTTP 403 — this token may not read it |
+| N/A | GET /api/extras/config-templates/ (extras.configtemplate) | HTTP 200 | HTTP 403 — this token may not read it |
+| N/A | GET /api/extras/custom-links/ (extras.customlink) | HTTP 200 | HTTP 403 — this token may not read it |
+| N/A | GET /api/extras/event-rules/ (extras.eventrule) | HTTP 200 | HTTP 403 — this token may not read it |
+| N/A | GET /api/extras/export-templates/ (extras.exporttemplate) | HTTP 200 | HTTP 403 — this token may not read it |
+| N/A | GET /api/extras/notification-groups/ (extras.notificationgroup) | HTTP 200 | HTTP 403 — this token may not read it |
+| N/A | GET /api/extras/saved-filters/ (extras.savedfilter) | HTTP 200 | HTTP 403 — this token may not read it |
+| N/A | GET /api/extras/table-configs/ (extras.tableconfig) | HTTP 200 | HTTP 403 — this token may not read it |
+| N/A | GET /api/extras/webhooks/ (extras.webhook) | HTTP 200 | HTTP 403 — this token may not read it |
+| N/A | GET /api/users/groups/ (users.group) | HTTP 200 | HTTP 403 — this token may not read it |
+| N/A | GET /api/users/owner-groups/ (users.ownergroup) | HTTP 200 | HTTP 403 — this token may not read it |
+| N/A | GET /api/users/owners/ (users.owner) | HTTP 200 | HTTP 403 — this token may not read it |
+| N/A | GET /api/users/permissions/ (users.permission) | HTTP 200 | HTTP 403 — this token may not read it |
+| N/A | GET /api/users/users/ (users.user) | HTTP 200 | HTTP 403 — this token may not read it |
+| INFO | registry diagnostics | stock 4.6.7: 308 paths, 138 collections, 133 details, 126 object types, 12 excluded | 322 paths, 145 collections, 140 details, 132 object types, 13 collections excluded |
+| INFO | collections excluded from the registry | the 12 non-object-type collections listed in the derivation doc §2.7 — several of them useful read-only endpoints (core/object-changes, core/jobs) | /api/core/background-queues/, /api/core/background-tasks/, /api/core/background-workers/, /api/core/data-files/, /api/core/jobs/, /api/core/object-changes/, /api/core/object-types/, /api/dcim/cable-terminations/, /api/dcim/connected-device/, /api/extras/dashboard/, /api/extras/scripts/, /api/extras/tagged-objects/, /api/users/config/ |
+| INFO | /api/ paths classified as neither collection nor detail | 37 on stock 4.6.7 — the sub-resource actions and 2-segment endpoints of §2.7 | 37 paths |
+| INFO | endpoint sweep coverage | 132 derived object types | 132 probed; 116 OK, 0 not found, 16 forbidden, 0 server errors |
 | OK | no write schema was resolved by component name | 0 — resolving by name returns the WRONG schema for dcim.site, because SiteRequest exists as the bulk-delete payload (§3.1) | 0 |
 | OK | every object type has a resolvable write schema | exactly one exception on stock NetBox: extras.script (§6 risk 10) | none missing |
 | OK | object types with no resolvable read schema | 0 on stock NetBox | none |
 | OK | object types with no resolvable patch schema | 0 on stock NetBox | none |
-| OK | GET /api/circuits/circuit-group-assignments/ (circuits.circuitgroupassignment) | HTTP 200 — the registry claims this endpoint exists | HTTP 200 in 83 ms |
-| OK | GET /api/circuits/circuit-groups/ (circuits.circuitgroup) | HTTP 200 — the registry claims this endpoint exists | HTTP 200 in 93 ms |
-| OK | GET /api/circuits/circuit-terminations/ (circuits.circuittermination) | HTTP 200 — the registry claims this endpoint exists | HTTP 200 in 153 ms |
-| OK | GET /api/circuits/circuit-types/ (circuits.circuittype) | HTTP 200 — the registry claims this endpoint exists | HTTP 200 in 112 ms |
-| OK | GET /api/circuits/circuits/ (circuits.circuit) | HTTP 200 — the registry claims this endpoint exists | HTTP 200 in 146 ms |
-| OK | GET /api/circuits/provider-accounts/ (circuits.provideraccount) | HTTP 200 — the registry claims this endpoint exists | HTTP 200 in 93 ms |
-| OK | GET /api/circuits/provider-networks/ (circuits.providernetwork) | HTTP 200 — the registry claims this endpoint exists | HTTP 200 in 83 ms |
-| OK | GET /api/circuits/providers/ (circuits.provider) | HTTP 200 — the registry claims this endpoint exists | HTTP 200 in 105 ms |
-| OK | GET /api/circuits/virtual-circuit-terminations/ (circuits.virtualcircuittermination) | HTTP 200 — the registry claims this endpoint exists | HTTP 200 in 86 ms |
-| OK | GET /api/circuits/virtual-circuit-types/ (circuits.virtualcircuittype) | HTTP 200 — the registry claims this endpoint exists | HTTP 200 in 84 ms |
-| OK | GET /api/circuits/virtual-circuits/ (circuits.virtualcircuit) | HTTP 200 — the registry claims this endpoint exists | HTTP 200 in 91 ms |
-| OK | GET /api/core/data-sources/ (core.datasource) | HTTP 200 — the registry claims this endpoint exists | HTTP 200 in 100 ms |
-| OK | GET /api/dcim/cable-bundles/ (dcim.cablebundle) | HTTP 200 — the registry claims this endpoint exists | HTTP 200 in 123 ms |
-| OK | GET /api/dcim/cables/ (dcim.cable) | HTTP 200 — the registry claims this endpoint exists | HTTP 200 in 146 ms |
-| OK | GET /api/dcim/console-port-templates/ (dcim.consoleporttemplate) | HTTP 200 — the registry claims this endpoint exists | HTTP 200 in 92 ms |
-| OK | GET /api/dcim/console-ports/ (dcim.consoleport) | HTTP 200 — the registry claims this endpoint exists | HTTP 200 in 156 ms |
-| OK | GET /api/dcim/console-server-port-templates/ (dcim.consoleserverporttemplate) | HTTP 200 — the registry claims this endpoint exists | HTTP 200 in 86 ms |
-| OK | GET /api/dcim/console-server-ports/ (dcim.consoleserverport) | HTTP 200 — the registry claims this endpoint exists | HTTP 200 in 138 ms |
-| OK | GET /api/dcim/device-bay-templates/ (dcim.devicebaytemplate) | HTTP 200 — the registry claims this endpoint exists | HTTP 200 in 95 ms |
-| OK | GET /api/dcim/device-bays/ (dcim.devicebay) | HTTP 200 — the registry claims this endpoint exists | HTTP 200 in 151 ms |
-| OK | GET /api/dcim/device-roles/ (dcim.devicerole) | HTTP 200 — the registry claims this endpoint exists | HTTP 200 in 126 ms |
-| OK | GET /api/dcim/device-types/ (dcim.devicetype) | HTTP 200 — the registry claims this endpoint exists | HTTP 200 in 149 ms |
-| OK | GET /api/dcim/devices/ (dcim.device) | HTTP 200 — the registry claims this endpoint exists | HTTP 200 in 272 ms |
-| OK | GET /api/dcim/front-port-templates/ (dcim.frontporttemplate) | HTTP 200 — the registry claims this endpoint exists | HTTP 200 in 98 ms |
-| OK | GET /api/dcim/front-ports/ (dcim.frontport) | HTTP 200 — the registry claims this endpoint exists | HTTP 200 in 164 ms |
-| OK | GET /api/dcim/interface-templates/ (dcim.interfacetemplate) | HTTP 200 — the registry claims this endpoint exists | HTTP 200 in 126 ms |
-| OK | GET /api/dcim/interfaces/ (dcim.interface) | HTTP 200 — the registry claims this endpoint exists | HTTP 200 in 233 ms |
-| OK | GET /api/dcim/inventory-item-roles/ (dcim.inventoryitemrole) | HTTP 200 — the registry claims this endpoint exists | HTTP 200 in 111 ms |
-| OK | GET /api/dcim/inventory-item-templates/ (dcim.inventoryitemtemplate) | HTTP 200 — the registry claims this endpoint exists | HTTP 200 in 125 ms |
-| OK | GET /api/dcim/inventory-items/ (dcim.inventoryitem) | HTTP 200 — the registry claims this endpoint exists | HTTP 200 in 180 ms |
-| OK | GET /api/dcim/locations/ (dcim.location) | HTTP 200 — the registry claims this endpoint exists | HTTP 200 in 136 ms |
-| OK | GET /api/dcim/mac-addresses/ (dcim.macaddress) | HTTP 200 — the registry claims this endpoint exists | HTTP 200 in 124 ms |
-| OK | GET /api/dcim/manufacturers/ (dcim.manufacturer) | HTTP 200 — the registry claims this endpoint exists | HTTP 200 in 125 ms |
-| OK | GET /api/dcim/module-bay-templates/ (dcim.modulebaytemplate) | HTTP 200 — the registry claims this endpoint exists | HTTP 200 in 86 ms |
-| OK | GET /api/dcim/module-bays/ (dcim.modulebay) | HTTP 200 — the registry claims this endpoint exists | HTTP 200 in 783 ms |
-| OK | GET /api/dcim/module-type-profiles/ (dcim.moduletypeprofile) | HTTP 200 — the registry claims this endpoint exists | HTTP 200 in 137 ms |
-| OK | GET /api/dcim/module-types/ (dcim.moduletype) | HTTP 200 — the registry claims this endpoint exists | HTTP 200 in 111 ms |
-| OK | GET /api/dcim/modules/ (dcim.module) | HTTP 200 — the registry claims this endpoint exists | HTTP 200 in 249 ms |
-| OK | GET /api/dcim/platforms/ (dcim.platform) | HTTP 200 — the registry claims this endpoint exists | HTTP 200 in 123 ms |
-| OK | GET /api/dcim/power-feeds/ (dcim.powerfeed) | HTTP 200 — the registry claims this endpoint exists | HTTP 200 in 198 ms |
-| OK | GET /api/dcim/power-outlet-templates/ (dcim.poweroutlettemplate) | HTTP 200 — the registry claims this endpoint exists | HTTP 200 in 115 ms |
-| OK | GET /api/dcim/power-outlets/ (dcim.poweroutlet) | HTTP 200 — the registry claims this endpoint exists | HTTP 200 in 177 ms |
-| OK | GET /api/dcim/power-panels/ (dcim.powerpanel) | HTTP 200 — the registry claims this endpoint exists | HTTP 200 in 121 ms |
-| OK | GET /api/dcim/power-port-templates/ (dcim.powerporttemplate) | HTTP 200 — the registry claims this endpoint exists | HTTP 200 in 111 ms |
-| OK | GET /api/dcim/power-ports/ (dcim.powerport) | HTTP 200 — the registry claims this endpoint exists | HTTP 200 in 157 ms |
-| OK | GET /api/dcim/rack-groups/ (dcim.rackgroup) | HTTP 200 — the registry claims this endpoint exists | HTTP 200 in 81 ms |
-| OK | GET /api/dcim/rack-reservations/ (dcim.rackreservation) | HTTP 200 — the registry claims this endpoint exists | HTTP 200 in 110 ms |
-| OK | GET /api/dcim/rack-roles/ (dcim.rackrole) | HTTP 200 — the registry claims this endpoint exists | HTTP 200 in 87 ms |
-| OK | GET /api/dcim/rack-types/ (dcim.racktype) | HTTP 200 — the registry claims this endpoint exists | HTTP 200 in 101 ms |
-| OK | GET /api/dcim/racks/ (dcim.rack) | HTTP 200 — the registry claims this endpoint exists | HTTP 200 in 162 ms |
-| OK | GET /api/dcim/rear-port-templates/ (dcim.rearporttemplate) | HTTP 200 — the registry claims this endpoint exists | HTTP 200 in 92 ms |
-| OK | GET /api/dcim/rear-ports/ (dcim.rearport) | HTTP 200 — the registry claims this endpoint exists | HTTP 200 in 154 ms |
-| OK | GET /api/dcim/regions/ (dcim.region) | HTTP 200 — the registry claims this endpoint exists | HTTP 200 in 107 ms |
-| OK | GET /api/dcim/site-groups/ (dcim.sitegroup) | HTTP 200 — the registry claims this endpoint exists | HTTP 200 in 87 ms |
-| OK | GET /api/dcim/sites/ (dcim.site) | HTTP 200 — the registry claims this endpoint exists | HTTP 200 in 141 ms |
-| OK | GET /api/dcim/virtual-chassis/ (dcim.virtualchassis) | HTTP 200 — the registry claims this endpoint exists | HTTP 200 in 101 ms |
-| OK | GET /api/dcim/virtual-device-contexts/ (dcim.virtualdevicecontext) | HTTP 200 — the registry claims this endpoint exists | HTTP 200 in 113 ms |
-| OK | GET /api/extras/bookmarks/ (extras.bookmark) | HTTP 200 — the registry claims this endpoint exists | HTTP 200 in 68 ms |
-| OK | GET /api/extras/config-context-profiles/ (extras.configcontextprofile) | HTTP 200 — the registry claims this endpoint exists | HTTP 200 in 88 ms |
-| OK | GET /api/extras/config-contexts/ (extras.configcontext) | HTTP 200 — the registry claims this endpoint exists | HTTP 200 in 107 ms |
-| OK | GET /api/extras/config-templates/ (extras.configtemplate) | HTTP 200 — the registry claims this endpoint exists | HTTP 200 in 90 ms |
-| OK | GET /api/extras/custom-field-choice-sets/ (extras.customfieldchoiceset) | HTTP 200 — the registry claims this endpoint exists | HTTP 200 in 72 ms |
-| OK | GET /api/extras/custom-fields/ (extras.customfield) | HTTP 200 — the registry claims this endpoint exists | HTTP 200 in 103 ms |
-| OK | GET /api/extras/custom-links/ (extras.customlink) | HTTP 200 — the registry claims this endpoint exists | HTTP 200 in 76 ms |
-| OK | GET /api/extras/event-rules/ (extras.eventrule) | HTTP 200 — the registry claims this endpoint exists | HTTP 200 in 91 ms |
-| OK | GET /api/extras/export-templates/ (extras.exporttemplate) | HTTP 200 — the registry claims this endpoint exists | HTTP 200 in 93 ms |
-| OK | GET /api/extras/image-attachments/ (extras.imageattachment) | HTTP 200 — the registry claims this endpoint exists | HTTP 200 in 90 ms |
-| OK | GET /api/extras/journal-entries/ (extras.journalentry) | HTTP 200 — the registry claims this endpoint exists | HTTP 200 in 84 ms |
-| OK | GET /api/extras/notification-groups/ (extras.notificationgroup) | HTTP 200 — the registry claims this endpoint exists | HTTP 200 in 65 ms |
-| OK | GET /api/extras/notifications/ (extras.notification) | HTTP 200 — the registry claims this endpoint exists | HTTP 200 in 67 ms |
-| OK | GET /api/extras/saved-filters/ (extras.savedfilter) | HTTP 200 — the registry claims this endpoint exists | HTTP 200 in 71 ms |
-| OK | GET /api/extras/scripts/ (extras.script) | HTTP 200 — the registry claims this endpoint exists | HTTP 200 in 67 ms |
-| OK | GET /api/extras/subscriptions/ (extras.subscription) | HTTP 200 — the registry claims this endpoint exists | HTTP 200 in 69 ms |
-| OK | GET /api/extras/table-configs/ (extras.tableconfig) | HTTP 200 — the registry claims this endpoint exists | HTTP 200 in 97 ms |
-| OK | GET /api/extras/tags/ (extras.tag) | HTTP 200 — the registry claims this endpoint exists | HTTP 200 in 86 ms |
-| OK | GET /api/extras/webhooks/ (extras.webhook) | HTTP 200 — the registry claims this endpoint exists | HTTP 200 in 85 ms |
-| OK | GET /api/ipam/aggregates/ (ipam.aggregate) | HTTP 200 — the registry claims this endpoint exists | HTTP 200 in 87 ms |
-| OK | GET /api/ipam/asn-ranges/ (ipam.asnrange) | HTTP 200 — the registry claims this endpoint exists | HTTP 200 in 101 ms |
-| OK | GET /api/ipam/asns/ (ipam.asn) | HTTP 200 — the registry claims this endpoint exists | HTTP 200 in 121 ms |
-| OK | GET /api/ipam/fhrp-group-assignments/ (ipam.fhrpgroupassignment) | HTTP 200 — the registry claims this endpoint exists | HTTP 200 in 71 ms |
-| OK | GET /api/ipam/fhrp-groups/ (ipam.fhrpgroup) | HTTP 200 — the registry claims this endpoint exists | HTTP 200 in 98 ms |
-| OK | GET /api/ipam/ip-addresses/ (ipam.ipaddress) | HTTP 200 — the registry claims this endpoint exists | HTTP 200 in 155 ms |
-| OK | GET /api/ipam/ip-ranges/ (ipam.iprange) | HTTP 200 — the registry claims this endpoint exists | HTTP 200 in 101 ms |
-| OK | GET /api/ipam/prefixes/ (ipam.prefix) | HTTP 200 — the registry claims this endpoint exists | HTTP 200 in 135 ms |
-| OK | GET /api/ipam/rirs/ (ipam.rir) | HTTP 200 — the registry claims this endpoint exists | HTTP 200 in 88 ms |
-| OK | GET /api/ipam/roles/ (ipam.role) | HTTP 200 — the registry claims this endpoint exists | HTTP 200 in 95 ms |
-| OK | GET /api/ipam/route-targets/ (ipam.routetarget) | HTTP 200 — the registry claims this endpoint exists | HTTP 200 in 128 ms |
-| OK | GET /api/ipam/service-templates/ (ipam.servicetemplate) | HTTP 200 — the registry claims this endpoint exists | HTTP 200 in 128 ms |
-| OK | GET /api/ipam/services/ (ipam.service) | HTTP 200 — the registry claims this endpoint exists | HTTP 200 in 720 ms |
-| OK | GET /api/ipam/vlan-groups/ (ipam.vlangroup) | HTTP 200 — the registry claims this endpoint exists | HTTP 200 in 113 ms |
-| OK | GET /api/ipam/vlan-translation-policies/ (ipam.vlantranslationpolicy) | HTTP 200 — the registry claims this endpoint exists | HTTP 200 in 80 ms |
-| OK | GET /api/ipam/vlan-translation-rules/ (ipam.vlantranslationrule) | HTTP 200 — the registry claims this endpoint exists | HTTP 200 in 80 ms |
-| OK | GET /api/ipam/vlans/ (ipam.vlan) | HTTP 200 — the registry claims this endpoint exists | HTTP 200 in 147 ms |
-| OK | GET /api/ipam/vrfs/ (ipam.vrf) | HTTP 200 — the registry claims this endpoint exists | HTTP 200 in 115 ms |
-| OK | GET /api/plugins/inventory/asset-roles/ (plugins.inventory.assetrole) | HTTP 200 — the registry claims this endpoint exists | HTTP 200 in 121 ms |
-| OK | GET /api/plugins/inventory/assets/ (plugins.inventory.asset) | HTTP 200 — the registry claims this endpoint exists | HTTP 200 in 200 ms |
-| OK | GET /api/plugins/inventory/audit-flowpage-assignments/ (plugins.inventory.auditflowpageassignment) | HTTP 200 — the registry claims this endpoint exists | HTTP 200 in 60 ms |
-| OK | GET /api/plugins/inventory/audit-flowpages/ (plugins.inventory.auditflowpage) | HTTP 200 — the registry claims this endpoint exists | HTTP 200 in 64 ms |
-| OK | GET /api/plugins/inventory/audit-flows/ (plugins.inventory.auditflow) | HTTP 200 — the registry claims this endpoint exists | HTTP 200 in 63 ms |
-| OK | GET /api/plugins/inventory/audit-trail-sources/ (plugins.inventory.audittrailsource) | HTTP 200 — the registry claims this endpoint exists | HTTP 200 in 63 ms |
-| OK | GET /api/plugins/inventory/audit-trails/ (plugins.inventory.audittrail) | HTTP 200 — the registry claims this endpoint exists | HTTP 200 in 56 ms |
-| OK | GET /api/plugins/inventory/deliveries/ (plugins.inventory.delivery) | HTTP 200 — the registry claims this endpoint exists | HTTP 200 in 87 ms |
-| OK | GET /api/plugins/inventory/inventory-item-groups/ (plugins.inventory.inventoryitemgroup) | HTTP 200 — the registry claims this endpoint exists | HTTP 200 in 106 ms |
-| OK | GET /api/plugins/inventory/inventory-item-types/ (plugins.inventory.inventoryitemtype) | HTTP 200 — the registry claims this endpoint exists | HTTP 200 in 110 ms |
-| OK | GET /api/plugins/inventory/purchases/ (plugins.inventory.purchase) | HTTP 200 — the registry claims this endpoint exists | HTTP 200 in 105 ms |
-| OK | GET /api/plugins/inventory/suppliers/ (plugins.inventory.supplier) | HTTP 200 — the registry claims this endpoint exists | HTTP 200 in 80 ms |
-| OK | GET /api/tenancy/contact-assignments/ (tenancy.contactassignment) | HTTP 200 — the registry claims this endpoint exists | HTTP 200 in 82 ms |
-| OK | GET /api/tenancy/contact-groups/ (tenancy.contactgroup) | HTTP 200 — the registry claims this endpoint exists | HTTP 200 in 91 ms |
-| OK | GET /api/tenancy/contact-roles/ (tenancy.contactrole) | HTTP 200 — the registry claims this endpoint exists | HTTP 200 in 77 ms |
-| OK | GET /api/tenancy/contacts/ (tenancy.contact) | HTTP 200 — the registry claims this endpoint exists | HTTP 200 in 87 ms |
-| OK | GET /api/tenancy/tenant-groups/ (tenancy.tenantgroup) | HTTP 200 — the registry claims this endpoint exists | HTTP 200 in 95 ms |
-| OK | GET /api/tenancy/tenants/ (tenancy.tenant) | HTTP 200 — the registry claims this endpoint exists | HTTP 200 in 127 ms |
-| OK | GET /api/users/groups/ (users.group) | HTTP 200 — the registry claims this endpoint exists | HTTP 200 in 76 ms |
-| OK | GET /api/users/owner-groups/ (users.ownergroup) | HTTP 200 — the registry claims this endpoint exists | HTTP 200 in 74 ms |
-| OK | GET /api/users/owners/ (users.owner) | HTTP 200 — the registry claims this endpoint exists | HTTP 200 in 67 ms |
-| OK | GET /api/users/permissions/ (users.permission) | HTTP 200 — the registry claims this endpoint exists | HTTP 200 in 71 ms |
-| OK | GET /api/users/tokens/ (users.token) | HTTP 200 — the registry claims this endpoint exists | HTTP 200 in 82 ms |
-| OK | GET /api/users/users/ (users.user) | HTTP 200 — the registry claims this endpoint exists | HTTP 200 in 94 ms |
-| OK | GET /api/virtualization/cluster-groups/ (virtualization.clustergroup) | HTTP 200 — the registry claims this endpoint exists | HTTP 200 in 90 ms |
-| OK | GET /api/virtualization/cluster-types/ (virtualization.clustertype) | HTTP 200 — the registry claims this endpoint exists | HTTP 200 in 89 ms |
-| OK | GET /api/virtualization/clusters/ (virtualization.cluster) | HTTP 200 — the registry claims this endpoint exists | HTTP 200 in 148 ms |
-| OK | GET /api/virtualization/interfaces/ (virtualization.interface) | HTTP 200 — the registry claims this endpoint exists | HTTP 200 in 154 ms |
-| OK | GET /api/virtualization/virtual-disks/ (virtualization.virtualdisk) | HTTP 200 — the registry claims this endpoint exists | HTTP 200 in 98 ms |
-| OK | GET /api/virtualization/virtual-machine-types/ (virtualization.virtualmachinetype) | HTTP 200 — the registry claims this endpoint exists | HTTP 200 in 98 ms |
-| OK | GET /api/virtualization/virtual-machines/ (virtualization.virtualmachine) | HTTP 200 — the registry claims this endpoint exists | HTTP 200 in 242 ms |
-| OK | GET /api/vpn/ike-policies/ (vpn.ikepolicy) | HTTP 200 — the registry claims this endpoint exists | HTTP 200 in 79 ms |
-| OK | GET /api/vpn/ike-proposals/ (vpn.ikeproposal) | HTTP 200 — the registry claims this endpoint exists | HTTP 200 in 91 ms |
-| OK | GET /api/vpn/ipsec-policies/ (vpn.ipsecpolicy) | HTTP 200 — the registry claims this endpoint exists | HTTP 200 in 83 ms |
-| OK | GET /api/vpn/ipsec-profiles/ (vpn.ipsecprofile) | HTTP 200 — the registry claims this endpoint exists | HTTP 200 in 84 ms |
-| OK | GET /api/vpn/ipsec-proposals/ (vpn.ipsecproposal) | HTTP 200 — the registry claims this endpoint exists | HTTP 200 in 89 ms |
-| OK | GET /api/vpn/l2vpn-terminations/ (vpn.l2vpntermination) | HTTP 200 — the registry claims this endpoint exists | HTTP 200 in 112 ms |
-| OK | GET /api/vpn/l2vpns/ (vpn.l2vpn) | HTTP 200 — the registry claims this endpoint exists | HTTP 200 in 88 ms |
-| OK | GET /api/vpn/tunnel-groups/ (vpn.tunnelgroup) | HTTP 200 — the registry claims this endpoint exists | HTTP 200 in 82 ms |
-| OK | GET /api/vpn/tunnel-terminations/ (vpn.tunneltermination) | HTTP 200 — the registry claims this endpoint exists | HTTP 200 in 91 ms |
-| OK | GET /api/vpn/tunnels/ (vpn.tunnel) | HTTP 200 — the registry claims this endpoint exists | HTTP 200 in 107 ms |
-| OK | GET /api/wireless/wireless-lan-groups/ (wireless.wirelesslangroup) | HTTP 200 — the registry claims this endpoint exists | HTTP 200 in 84 ms |
-| OK | GET /api/wireless/wireless-lans/ (wireless.wirelesslan) | HTTP 200 — the registry claims this endpoint exists | HTTP 200 in 110 ms |
-| OK | GET /api/wireless/wireless-links/ (wireless.wirelesslink) | HTTP 200 — the registry claims this endpoint exists | HTTP 200 in 104 ms |
+| OK | GET /api/circuits/circuit-group-assignments/ (circuits.circuitgroupassignment) | HTTP 200 — the registry claims this endpoint exists | HTTP 200 in 59 ms |
+| OK | GET /api/circuits/circuit-groups/ (circuits.circuitgroup) | HTTP 200 — the registry claims this endpoint exists | HTTP 200 in 75 ms |
+| OK | GET /api/circuits/circuit-terminations/ (circuits.circuittermination) | HTTP 200 — the registry claims this endpoint exists | HTTP 200 in 133 ms |
+| OK | GET /api/circuits/circuit-types/ (circuits.circuittype) | HTTP 200 — the registry claims this endpoint exists | HTTP 200 in 111 ms |
+| OK | GET /api/circuits/circuits/ (circuits.circuit) | HTTP 200 — the registry claims this endpoint exists | HTTP 200 in 67 ms |
+| OK | GET /api/circuits/provider-accounts/ (circuits.provideraccount) | HTTP 200 — the registry claims this endpoint exists | HTTP 200 in 38 ms |
+| OK | GET /api/circuits/provider-networks/ (circuits.providernetwork) | HTTP 200 — the registry claims this endpoint exists | HTTP 200 in 50 ms |
+| OK | GET /api/circuits/providers/ (circuits.provider) | HTTP 200 — the registry claims this endpoint exists | HTTP 200 in 116 ms |
+| OK | GET /api/circuits/virtual-circuit-terminations/ (circuits.virtualcircuittermination) | HTTP 200 — the registry claims this endpoint exists | HTTP 200 in 54 ms |
+| OK | GET /api/circuits/virtual-circuit-types/ (circuits.virtualcircuittype) | HTTP 200 — the registry claims this endpoint exists | HTTP 200 in 55 ms |
+| OK | GET /api/circuits/virtual-circuits/ (circuits.virtualcircuit) | HTTP 200 — the registry claims this endpoint exists | HTTP 200 in 32 ms |
+| OK | GET /api/dcim/cable-bundles/ (dcim.cablebundle) | HTTP 200 — the registry claims this endpoint exists | HTTP 200 in 54 ms |
+| OK | GET /api/dcim/cables/ (dcim.cable) | HTTP 200 — the registry claims this endpoint exists | HTTP 200 in 68 ms |
+| OK | GET /api/dcim/console-port-templates/ (dcim.consoleporttemplate) | HTTP 200 — the registry claims this endpoint exists | HTTP 200 in 16 ms |
+| OK | GET /api/dcim/console-ports/ (dcim.consoleport) | HTTP 200 — the registry claims this endpoint exists | HTTP 200 in 42 ms |
+| OK | GET /api/dcim/console-server-port-templates/ (dcim.consoleserverporttemplate) | HTTP 200 — the registry claims this endpoint exists | HTTP 200 in 49 ms |
+| OK | GET /api/dcim/console-server-ports/ (dcim.consoleserverport) | HTTP 200 — the registry claims this endpoint exists | HTTP 200 in 74 ms |
+| OK | GET /api/dcim/cooling-feeds/ (dcim.coolingfeed) | HTTP 200 — the registry claims this endpoint exists | HTTP 200 in 47 ms |
+| OK | GET /api/dcim/cooling-intake-templates/ (dcim.coolingintaketemplate) | HTTP 200 — the registry claims this endpoint exists | HTTP 200 in 36 ms |
+| OK | GET /api/dcim/cooling-intakes/ (dcim.coolingintake) | HTTP 200 — the registry claims this endpoint exists | HTTP 200 in 101 ms |
+| OK | GET /api/dcim/cooling-outflow-templates/ (dcim.coolingoutflowtemplate) | HTTP 200 — the registry claims this endpoint exists | HTTP 200 in 35 ms |
+| OK | GET /api/dcim/cooling-outflows/ (dcim.coolingoutflow) | HTTP 200 — the registry claims this endpoint exists | HTTP 200 in 58 ms |
+| OK | GET /api/dcim/cooling-sources/ (dcim.coolingsource) | HTTP 200 — the registry claims this endpoint exists | HTTP 200 in 65 ms |
+| OK | GET /api/dcim/device-bay-templates/ (dcim.devicebaytemplate) | HTTP 200 — the registry claims this endpoint exists | HTTP 200 in 32 ms |
+| OK | GET /api/dcim/device-bays/ (dcim.devicebay) | HTTP 200 — the registry claims this endpoint exists | HTTP 200 in 73 ms |
+| OK | GET /api/dcim/device-roles/ (dcim.devicerole) | HTTP 200 — the registry claims this endpoint exists | HTTP 200 in 45 ms |
+| OK | GET /api/dcim/device-types/ (dcim.devicetype) | HTTP 200 — the registry claims this endpoint exists | HTTP 200 in 101 ms |
+| OK | GET /api/dcim/devices/ (dcim.device) | HTTP 200 — the registry claims this endpoint exists | HTTP 200 in 135 ms |
+| OK | GET /api/dcim/front-port-templates/ (dcim.frontporttemplate) | HTTP 200 — the registry claims this endpoint exists | HTTP 200 in 27 ms |
+| OK | GET /api/dcim/front-ports/ (dcim.frontport) | HTTP 200 — the registry claims this endpoint exists | HTTP 200 in 46 ms |
+| OK | GET /api/dcim/interface-templates/ (dcim.interfacetemplate) | HTTP 200 — the registry claims this endpoint exists | HTTP 200 in 55 ms |
+| OK | GET /api/dcim/interfaces/ (dcim.interface) | HTTP 200 — the registry claims this endpoint exists | HTTP 200 in 108 ms |
+| OK | GET /api/dcim/inventory-item-roles/ (dcim.inventoryitemrole) | HTTP 200 — the registry claims this endpoint exists | HTTP 200 in 58 ms |
+| OK | GET /api/dcim/inventory-item-templates/ (dcim.inventoryitemtemplate) | HTTP 200 — the registry claims this endpoint exists | HTTP 200 in 35 ms |
+| OK | GET /api/dcim/inventory-items/ (dcim.inventoryitem) | HTTP 200 — the registry claims this endpoint exists | HTTP 200 in 85 ms |
+| OK | GET /api/dcim/locations/ (dcim.location) | HTTP 200 — the registry claims this endpoint exists | HTTP 200 in 58 ms |
+| OK | GET /api/dcim/mac-addresses/ (dcim.macaddress) | HTTP 200 — the registry claims this endpoint exists | HTTP 200 in 81 ms |
+| OK | GET /api/dcim/manufacturers/ (dcim.manufacturer) | HTTP 200 — the registry claims this endpoint exists | HTTP 200 in 58 ms |
+| OK | GET /api/dcim/module-bay-templates/ (dcim.modulebaytemplate) | HTTP 200 — the registry claims this endpoint exists | HTTP 200 in 17 ms |
+| OK | GET /api/dcim/module-bay-types/ (dcim.modulebaytype) | HTTP 200 — the registry claims this endpoint exists | HTTP 200 in 69 ms |
+| OK | GET /api/dcim/module-bays/ (dcim.modulebay) | HTTP 200 — the registry claims this endpoint exists | HTTP 200 in 55 ms |
+| OK | GET /api/dcim/module-type-profiles/ (dcim.moduletypeprofile) | HTTP 200 — the registry claims this endpoint exists | HTTP 200 in 85 ms |
+| OK | GET /api/dcim/module-types/ (dcim.moduletype) | HTTP 200 — the registry claims this endpoint exists | HTTP 200 in 54 ms |
+| OK | GET /api/dcim/modules/ (dcim.module) | HTTP 200 — the registry claims this endpoint exists | HTTP 200 in 69 ms |
+| OK | GET /api/dcim/platforms/ (dcim.platform) | HTTP 200 — the registry claims this endpoint exists | HTTP 200 in 38 ms |
+| OK | GET /api/dcim/power-feeds/ (dcim.powerfeed) | HTTP 200 — the registry claims this endpoint exists | HTTP 200 in 72 ms |
+| OK | GET /api/dcim/power-outlet-templates/ (dcim.poweroutlettemplate) | HTTP 200 — the registry claims this endpoint exists | HTTP 200 in 88 ms |
+| OK | GET /api/dcim/power-outlets/ (dcim.poweroutlet) | HTTP 200 — the registry claims this endpoint exists | HTTP 200 in 83 ms |
+| OK | GET /api/dcim/power-panels/ (dcim.powerpanel) | HTTP 200 — the registry claims this endpoint exists | HTTP 200 in 33 ms |
+| OK | GET /api/dcim/power-port-templates/ (dcim.powerporttemplate) | HTTP 200 — the registry claims this endpoint exists | HTTP 200 in 61 ms |
+| OK | GET /api/dcim/power-ports/ (dcim.powerport) | HTTP 200 — the registry claims this endpoint exists | HTTP 200 in 50 ms |
+| OK | GET /api/dcim/rack-groups/ (dcim.rackgroup) | HTTP 200 — the registry claims this endpoint exists | HTTP 200 in 89 ms |
+| OK | GET /api/dcim/rack-reservations/ (dcim.rackreservation) | HTTP 200 — the registry claims this endpoint exists | HTTP 200 in 81 ms |
+| OK | GET /api/dcim/rack-roles/ (dcim.rackrole) | HTTP 200 — the registry claims this endpoint exists | HTTP 200 in 53 ms |
+| OK | GET /api/dcim/rack-types/ (dcim.racktype) | HTTP 200 — the registry claims this endpoint exists | HTTP 200 in 33 ms |
+| OK | GET /api/dcim/racks/ (dcim.rack) | HTTP 200 — the registry claims this endpoint exists | HTTP 200 in 138 ms |
+| OK | GET /api/dcim/rear-port-templates/ (dcim.rearporttemplate) | HTTP 200 — the registry claims this endpoint exists | HTTP 200 in 63 ms |
+| OK | GET /api/dcim/rear-ports/ (dcim.rearport) | HTTP 200 — the registry claims this endpoint exists | HTTP 200 in 111 ms |
+| OK | GET /api/dcim/regions/ (dcim.region) | HTTP 200 — the registry claims this endpoint exists | HTTP 200 in 110 ms |
+| OK | GET /api/dcim/site-groups/ (dcim.sitegroup) | HTTP 200 — the registry claims this endpoint exists | HTTP 200 in 37 ms |
+| OK | GET /api/dcim/sites/ (dcim.site) | HTTP 200 — the registry claims this endpoint exists | HTTP 200 in 56 ms |
+| OK | GET /api/dcim/virtual-chassis/ (dcim.virtualchassis) | HTTP 200 — the registry claims this endpoint exists | HTTP 200 in 51 ms |
+| OK | GET /api/dcim/virtual-device-contexts/ (dcim.virtualdevicecontext) | HTTP 200 — the registry claims this endpoint exists | HTTP 200 in 81 ms |
+| OK | GET /api/extras/bookmarks/ (extras.bookmark) | HTTP 200 — the registry claims this endpoint exists | HTTP 200 in 35 ms |
+| OK | GET /api/extras/custom-field-choice-sets/ (extras.customfieldchoiceset) | HTTP 200 — the registry claims this endpoint exists | HTTP 200 in 32 ms |
+| OK | GET /api/extras/custom-fields/ (extras.customfield) | HTTP 200 — the registry claims this endpoint exists | HTTP 200 in 60 ms |
+| OK | GET /api/extras/image-attachments/ (extras.imageattachment) | HTTP 200 — the registry claims this endpoint exists | HTTP 200 in 39 ms |
+| OK | GET /api/extras/journal-entries/ (extras.journalentry) | HTTP 200 — the registry claims this endpoint exists | HTTP 200 in 47 ms |
+| OK | GET /api/extras/notifications/ (extras.notification) | HTTP 200 — the registry claims this endpoint exists | HTTP 200 in 18 ms |
+| OK | GET /api/extras/subscriptions/ (extras.subscription) | HTTP 200 — the registry claims this endpoint exists | HTTP 200 in 15 ms |
+| OK | GET /api/extras/tags/ (extras.tag) | HTTP 200 — the registry claims this endpoint exists | HTTP 200 in 43 ms |
+| OK | GET /api/ipam/aggregates/ (ipam.aggregate) | HTTP 200 — the registry claims this endpoint exists | HTTP 200 in 43 ms |
+| OK | GET /api/ipam/asn-ranges/ (ipam.asnrange) | HTTP 200 — the registry claims this endpoint exists | HTTP 200 in 89 ms |
+| OK | GET /api/ipam/asns/ (ipam.asn) | HTTP 200 — the registry claims this endpoint exists | HTTP 200 in 46 ms |
+| OK | GET /api/ipam/fhrp-group-assignments/ (ipam.fhrpgroupassignment) | HTTP 200 — the registry claims this endpoint exists | HTTP 200 in 30 ms |
+| OK | GET /api/ipam/fhrp-groups/ (ipam.fhrpgroup) | HTTP 200 — the registry claims this endpoint exists | HTTP 200 in 30 ms |
+| OK | GET /api/ipam/ip-addresses/ (ipam.ipaddress) | HTTP 200 — the registry claims this endpoint exists | HTTP 200 in 93 ms |
+| OK | GET /api/ipam/ip-ranges/ (ipam.iprange) | HTTP 200 — the registry claims this endpoint exists | HTTP 200 in 38 ms |
+| OK | GET /api/ipam/prefixes/ (ipam.prefix) | HTTP 200 — the registry claims this endpoint exists | HTTP 200 in 81 ms |
+| OK | GET /api/ipam/rirs/ (ipam.rir) | HTTP 200 — the registry claims this endpoint exists | HTTP 200 in 73 ms |
+| OK | GET /api/ipam/roles/ (ipam.role) | HTTP 200 — the registry claims this endpoint exists | HTTP 200 in 22 ms |
+| OK | GET /api/ipam/route-targets/ (ipam.routetarget) | HTTP 200 — the registry claims this endpoint exists | HTTP 200 in 50 ms |
+| OK | GET /api/ipam/service-templates/ (ipam.servicetemplate) | HTTP 200 — the registry claims this endpoint exists | HTTP 200 in 75 ms |
+| OK | GET /api/ipam/services/ (ipam.service) | HTTP 200 — the registry claims this endpoint exists | HTTP 200 in 44 ms |
+| OK | GET /api/ipam/vlan-groups/ (ipam.vlangroup) | HTTP 200 — the registry claims this endpoint exists | HTTP 200 in 83 ms |
+| OK | GET /api/ipam/vlan-translation-policies/ (ipam.vlantranslationpolicy) | HTTP 200 — the registry claims this endpoint exists | HTTP 200 in 28 ms |
+| OK | GET /api/ipam/vlan-translation-rules/ (ipam.vlantranslationrule) | HTTP 200 — the registry claims this endpoint exists | HTTP 200 in 39 ms |
+| OK | GET /api/ipam/vlans/ (ipam.vlan) | HTTP 200 — the registry claims this endpoint exists | HTTP 200 in 69 ms |
+| OK | GET /api/ipam/vrfs/ (ipam.vrf) | HTTP 200 — the registry claims this endpoint exists | HTTP 200 in 51 ms |
+| OK | GET /api/tenancy/contact-assignments/ (tenancy.contactassignment) | HTTP 200 — the registry claims this endpoint exists | HTTP 200 in 43 ms |
+| OK | GET /api/tenancy/contact-groups/ (tenancy.contactgroup) | HTTP 200 — the registry claims this endpoint exists | HTTP 200 in 78 ms |
+| OK | GET /api/tenancy/contact-roles/ (tenancy.contactrole) | HTTP 200 — the registry claims this endpoint exists | HTTP 200 in 56 ms |
+| OK | GET /api/tenancy/contacts/ (tenancy.contact) | HTTP 200 — the registry claims this endpoint exists | HTTP 200 in 46 ms |
+| OK | GET /api/tenancy/tenant-groups/ (tenancy.tenantgroup) | HTTP 200 — the registry claims this endpoint exists | HTTP 200 in 33 ms |
+| OK | GET /api/tenancy/tenants/ (tenancy.tenant) | HTTP 200 — the registry claims this endpoint exists | HTTP 200 in 49 ms |
+| OK | GET /api/users/tokens/ (users.token) | HTTP 200 — the registry claims this endpoint exists | HTTP 200 in 39 ms |
+| OK | GET /api/virtualization/cluster-groups/ (virtualization.clustergroup) | HTTP 200 — the registry claims this endpoint exists | HTTP 200 in 64 ms |
+| OK | GET /api/virtualization/cluster-types/ (virtualization.clustertype) | HTTP 200 — the registry claims this endpoint exists | HTTP 200 in 57 ms |
+| OK | GET /api/virtualization/clusters/ (virtualization.cluster) | HTTP 200 — the registry claims this endpoint exists | HTTP 200 in 47 ms |
+| OK | GET /api/virtualization/interfaces/ (virtualization.interface) | HTTP 200 — the registry claims this endpoint exists | HTTP 200 in 93 ms |
+| OK | GET /api/virtualization/virtual-disks/ (virtualization.virtualdisk) | HTTP 200 — the registry claims this endpoint exists | HTTP 200 in 46 ms |
+| OK | GET /api/virtualization/virtual-machine-types/ (virtualization.virtualmachinetype) | HTTP 200 — the registry claims this endpoint exists | HTTP 200 in 85 ms |
+| OK | GET /api/virtualization/virtual-machines/ (virtualization.virtualmachine) | HTTP 200 — the registry claims this endpoint exists | HTTP 200 in 74 ms |
+| OK | GET /api/vpn/ike-policies/ (vpn.ikepolicy) | HTTP 200 — the registry claims this endpoint exists | HTTP 200 in 24 ms |
+| OK | GET /api/vpn/ike-proposals/ (vpn.ikeproposal) | HTTP 200 — the registry claims this endpoint exists | HTTP 200 in 41 ms |
+| OK | GET /api/vpn/ipsec-policies/ (vpn.ipsecpolicy) | HTTP 200 — the registry claims this endpoint exists | HTTP 200 in 30 ms |
+| OK | GET /api/vpn/ipsec-profiles/ (vpn.ipsecprofile) | HTTP 200 — the registry claims this endpoint exists | HTTP 200 in 47 ms |
+| OK | GET /api/vpn/ipsec-proposals/ (vpn.ipsecproposal) | HTTP 200 — the registry claims this endpoint exists | HTTP 200 in 68 ms |
+| OK | GET /api/vpn/l2vpn-terminations/ (vpn.l2vpntermination) | HTTP 200 — the registry claims this endpoint exists | HTTP 200 in 39 ms |
+| OK | GET /api/vpn/l2vpns/ (vpn.l2vpn) | HTTP 200 — the registry claims this endpoint exists | HTTP 200 in 69 ms |
+| OK | GET /api/vpn/tunnel-groups/ (vpn.tunnelgroup) | HTTP 200 — the registry claims this endpoint exists | HTTP 200 in 50 ms |
+| OK | GET /api/vpn/tunnel-terminations/ (vpn.tunneltermination) | HTTP 200 — the registry claims this endpoint exists | HTTP 200 in 22 ms |
+| OK | GET /api/vpn/tunnels/ (vpn.tunnel) | HTTP 200 — the registry claims this endpoint exists | HTTP 200 in 75 ms |
+| OK | GET /api/wireless/wireless-lan-groups/ (wireless.wirelesslangroup) | HTTP 200 — the registry claims this endpoint exists | HTTP 200 in 50 ms |
+| OK | GET /api/wireless/wireless-lans/ (wireless.wirelesslan) | HTTP 200 — the registry claims this endpoint exists | HTTP 200 in 71 ms |
+| OK | GET /api/wireless/wireless-links/ (wireless.wirelesslink) | HTTP 200 — the registry claims this endpoint exists | HTTP 200 in 33 ms |
 
 ### 3. List envelope shape
 
@@ -226,13 +254,18 @@ Everything the suite looked at, including the checks that passed.
 | OK | circuits.virtualcircuittermination envelope | {count: number, next: string\|null, previous: string\|null, results: array} | as expected |
 | OK | circuits.virtualcircuittype envelope | {count: number, next: string\|null, previous: string\|null, results: array} | as expected |
 | OK | circuits.virtualcircuit envelope | {count: number, next: string\|null, previous: string\|null, results: array} | as expected |
-| OK | core.datasource envelope | {count: number, next: string\|null, previous: string\|null, results: array} | as expected |
 | OK | dcim.cablebundle envelope | {count: number, next: string\|null, previous: string\|null, results: array} | as expected |
 | OK | dcim.cable envelope | {count: number, next: string\|null, previous: string\|null, results: array} | as expected |
 | OK | dcim.consoleporttemplate envelope | {count: number, next: string\|null, previous: string\|null, results: array} | as expected |
 | OK | dcim.consoleport envelope | {count: number, next: string\|null, previous: string\|null, results: array} | as expected |
 | OK | dcim.consoleserverporttemplate envelope | {count: number, next: string\|null, previous: string\|null, results: array} | as expected |
 | OK | dcim.consoleserverport envelope | {count: number, next: string\|null, previous: string\|null, results: array} | as expected |
+| OK | dcim.coolingfeed envelope | {count: number, next: string\|null, previous: string\|null, results: array} | as expected |
+| OK | dcim.coolingintaketemplate envelope | {count: number, next: string\|null, previous: string\|null, results: array} | as expected |
+| OK | dcim.coolingintake envelope | {count: number, next: string\|null, previous: string\|null, results: array} | as expected |
+| OK | dcim.coolingoutflowtemplate envelope | {count: number, next: string\|null, previous: string\|null, results: array} | as expected |
+| OK | dcim.coolingoutflow envelope | {count: number, next: string\|null, previous: string\|null, results: array} | as expected |
+| OK | dcim.coolingsource envelope | {count: number, next: string\|null, previous: string\|null, results: array} | as expected |
 | OK | dcim.devicebaytemplate envelope | {count: number, next: string\|null, previous: string\|null, results: array} | as expected |
 | OK | dcim.devicebay envelope | {count: number, next: string\|null, previous: string\|null, results: array} | as expected |
 | OK | dcim.devicerole envelope | {count: number, next: string\|null, previous: string\|null, results: array} | as expected |
@@ -249,6 +282,7 @@ Everything the suite looked at, including the checks that passed.
 | OK | dcim.macaddress envelope | {count: number, next: string\|null, previous: string\|null, results: array} | as expected |
 | OK | dcim.manufacturer envelope | {count: number, next: string\|null, previous: string\|null, results: array} | as expected |
 | OK | dcim.modulebaytemplate envelope | {count: number, next: string\|null, previous: string\|null, results: array} | as expected |
+| OK | dcim.modulebaytype envelope | {count: number, next: string\|null, previous: string\|null, results: array} | as expected |
 | OK | dcim.modulebay envelope | {count: number, next: string\|null, previous: string\|null, results: array} | as expected |
 | OK | dcim.moduletypeprofile envelope | {count: number, next: string\|null, previous: string\|null, results: array} | as expected |
 | OK | dcim.moduletype envelope | {count: number, next: string\|null, previous: string\|null, results: array} | as expected |
@@ -273,24 +307,13 @@ Everything the suite looked at, including the checks that passed.
 | OK | dcim.virtualchassis envelope | {count: number, next: string\|null, previous: string\|null, results: array} | as expected |
 | OK | dcim.virtualdevicecontext envelope | {count: number, next: string\|null, previous: string\|null, results: array} | as expected |
 | OK | extras.bookmark envelope | {count: number, next: string\|null, previous: string\|null, results: array} | as expected |
-| OK | extras.configcontextprofile envelope | {count: number, next: string\|null, previous: string\|null, results: array} | as expected |
-| OK | extras.configcontext envelope | {count: number, next: string\|null, previous: string\|null, results: array} | as expected |
-| OK | extras.configtemplate envelope | {count: number, next: string\|null, previous: string\|null, results: array} | as expected |
 | OK | extras.customfieldchoiceset envelope | {count: number, next: string\|null, previous: string\|null, results: array} | as expected |
 | OK | extras.customfield envelope | {count: number, next: string\|null, previous: string\|null, results: array} | as expected |
-| OK | extras.customlink envelope | {count: number, next: string\|null, previous: string\|null, results: array} | as expected |
-| OK | extras.eventrule envelope | {count: number, next: string\|null, previous: string\|null, results: array} | as expected |
-| OK | extras.exporttemplate envelope | {count: number, next: string\|null, previous: string\|null, results: array} | as expected |
 | OK | extras.imageattachment envelope | {count: number, next: string\|null, previous: string\|null, results: array} | as expected |
 | OK | extras.journalentry envelope | {count: number, next: string\|null, previous: string\|null, results: array} | as expected |
-| OK | extras.notificationgroup envelope | {count: number, next: string\|null, previous: string\|null, results: array} | as expected |
 | OK | extras.notification envelope | {count: number, next: string\|null, previous: string\|null, results: array} | as expected |
-| OK | extras.savedfilter envelope | {count: number, next: string\|null, previous: string\|null, results: array} | as expected |
-| OK | extras.script envelope | {count: number, next: string\|null, previous: string\|null, results: array} | as expected |
 | OK | extras.subscription envelope | {count: number, next: string\|null, previous: string\|null, results: array} | as expected |
-| OK | extras.tableconfig envelope | {count: number, next: string\|null, previous: string\|null, results: array} | as expected |
 | OK | extras.tag envelope | {count: number, next: string\|null, previous: string\|null, results: array} | as expected |
-| OK | extras.webhook envelope | {count: number, next: string\|null, previous: string\|null, results: array} | as expected |
 | OK | ipam.aggregate envelope | {count: number, next: string\|null, previous: string\|null, results: array} | as expected |
 | OK | ipam.asnrange envelope | {count: number, next: string\|null, previous: string\|null, results: array} | as expected |
 | OK | ipam.asn envelope | {count: number, next: string\|null, previous: string\|null, results: array} | as expected |
@@ -309,30 +332,13 @@ Everything the suite looked at, including the checks that passed.
 | OK | ipam.vlantranslationrule envelope | {count: number, next: string\|null, previous: string\|null, results: array} | as expected |
 | OK | ipam.vlan envelope | {count: number, next: string\|null, previous: string\|null, results: array} | as expected |
 | OK | ipam.vrf envelope | {count: number, next: string\|null, previous: string\|null, results: array} | as expected |
-| OK | plugins.inventory.assetrole envelope | {count: number, next: string\|null, previous: string\|null, results: array} | as expected |
-| OK | plugins.inventory.asset envelope | {count: number, next: string\|null, previous: string\|null, results: array} | as expected |
-| OK | plugins.inventory.auditflowpageassignment envelope | {count: number, next: string\|null, previous: string\|null, results: array} | as expected |
-| OK | plugins.inventory.auditflowpage envelope | {count: number, next: string\|null, previous: string\|null, results: array} | as expected |
-| OK | plugins.inventory.auditflow envelope | {count: number, next: string\|null, previous: string\|null, results: array} | as expected |
-| OK | plugins.inventory.audittrailsource envelope | {count: number, next: string\|null, previous: string\|null, results: array} | as expected |
-| OK | plugins.inventory.audittrail envelope | {count: number, next: string\|null, previous: string\|null, results: array} | as expected |
-| OK | plugins.inventory.delivery envelope | {count: number, next: string\|null, previous: string\|null, results: array} | as expected |
-| OK | plugins.inventory.inventoryitemgroup envelope | {count: number, next: string\|null, previous: string\|null, results: array} | as expected |
-| OK | plugins.inventory.inventoryitemtype envelope | {count: number, next: string\|null, previous: string\|null, results: array} | as expected |
-| OK | plugins.inventory.purchase envelope | {count: number, next: string\|null, previous: string\|null, results: array} | as expected |
-| OK | plugins.inventory.supplier envelope | {count: number, next: string\|null, previous: string\|null, results: array} | as expected |
 | OK | tenancy.contactassignment envelope | {count: number, next: string\|null, previous: string\|null, results: array} | as expected |
 | OK | tenancy.contactgroup envelope | {count: number, next: string\|null, previous: string\|null, results: array} | as expected |
 | OK | tenancy.contactrole envelope | {count: number, next: string\|null, previous: string\|null, results: array} | as expected |
 | OK | tenancy.contact envelope | {count: number, next: string\|null, previous: string\|null, results: array} | as expected |
 | OK | tenancy.tenantgroup envelope | {count: number, next: string\|null, previous: string\|null, results: array} | as expected |
 | OK | tenancy.tenant envelope | {count: number, next: string\|null, previous: string\|null, results: array} | as expected |
-| OK | users.group envelope | {count: number, next: string\|null, previous: string\|null, results: array} | as expected |
-| OK | users.ownergroup envelope | {count: number, next: string\|null, previous: string\|null, results: array} | as expected |
-| OK | users.owner envelope | {count: number, next: string\|null, previous: string\|null, results: array} | as expected |
-| OK | users.permission envelope | {count: number, next: string\|null, previous: string\|null, results: array} | as expected |
 | OK | users.token envelope | {count: number, next: string\|null, previous: string\|null, results: array} | as expected |
-| OK | users.user envelope | {count: number, next: string\|null, previous: string\|null, results: array} | as expected |
 | OK | virtualization.clustergroup envelope | {count: number, next: string\|null, previous: string\|null, results: array} | as expected |
 | OK | virtualization.clustertype envelope | {count: number, next: string\|null, previous: string\|null, results: array} | as expected |
 | OK | virtualization.cluster envelope | {count: number, next: string\|null, previous: string\|null, results: array} | as expected |
@@ -358,128 +364,60 @@ Everything the suite looked at, including the checks that passed.
 
 | | Check | Derived | Actual |
 | --- | ----- | ------- | ------ |
+| N/A | dcim.device field set | the read component's property list | not checked — the instance holds 0 object(s) of this type |
+| N/A | dcim.devicetype field set | the read component's property list | not checked — the instance holds 0 object(s) of this type |
+| N/A | dcim.devicerole field set | the read component's property list | not checked — the instance holds 0 object(s) of this type |
+| N/A | dcim.manufacturer field set | the read component's property list | not checked — the instance holds 0 object(s) of this type |
+| N/A | dcim.rack field set | the read component's property list | not checked — the instance holds 0 object(s) of this type |
+| N/A | dcim.interface field set | the read component's property list | not checked — the instance holds 0 object(s) of this type |
+| N/A | dcim.cable field set | the read component's property list | not checked — the instance holds 0 object(s) of this type |
+| N/A | dcim.location field set | the read component's property list | not checked — the instance holds 0 object(s) of this type |
+| N/A | ipam.ipaddress field set | the read component's property list | not checked — the instance holds 0 object(s) of this type |
+| N/A | ipam.vrf field set | the read component's property list | not checked — the instance holds 0 object(s) of this type |
 | N/A | ipam.aggregate field set | the read component's property list | not checked — the instance holds 0 object(s) of this type |
-| N/A | users.permission field set | the read component's property list | not checked — the instance holds 0 object(s) of this type |
+| N/A | tenancy.tenant field set | the read component's property list | not checked — the instance holds 0 object(s) of this type |
+| N/A | virtualization.virtualmachine field set | the read component's property list | not checked — the instance holds 0 object(s) of this type |
+| N/A | virtualization.cluster field set | the read component's property list | not checked — the instance holds 0 object(s) of this type |
+| N/A | circuits.circuit field set | the read component's property list | not checked — the instance holds 0 object(s) of this type |
+| N/A | circuits.provider field set | the read component's property list | not checked — the instance holds 0 object(s) of this type |
+| N/A | extras.tag field set | the read component's property list | not checked — the instance holds 0 object(s) of this type |
+| N/A | users.user field set | the read component's property list | not checked — list returned HTTP 403 |
+| N/A | users.permission field set | the read component's property list | not checked — list returned HTTP 403 |
 | N/A | circuits.circuitgroupassignment field set | the read component's property list | not checked — the instance holds 0 object(s) of this type |
 | N/A | circuits.circuitgroup field set | the read component's property list | not checked — the instance holds 0 object(s) of this type |
-| INFO | dcim.cable — required-on-create fields appear in a real object | no field is required on create | all present |
-| INFO | circuits.circuit — fields the schema declares but the object omits | 25 declared propert(ies); 11 of them listed in `required` | 1 omitted: assignments |
-| INFO | users.user — required-on-create fields appear in a real object | required on create: username, password | absent: password |
 | OK | dcim.site — fields the schema declares but the object omits | 30 declared propert(ies); 14 of them listed in `required` | none omitted |
 | OK | dcim.site — fields the object carries but the schema does not declare | none; the read component is meant to be the complete response shape | none |
 | OK | dcim.site — read-only fields are actually returned | 12 propert(ies) marked readOnly: id, url, display_url, display, created, last_updated, circuit_count, device_count | all present in the object |
 | OK | dcim.site — required-on-create fields appear in a real object | required on create: name, slug | all present |
-| OK | dcim.device — fields the schema declares but the object omits | 49 declared propert(ies); 22 of them listed in `required` | none omitted |
-| OK | dcim.device — fields the object carries but the schema does not declare | none; the read component is meant to be the complete response shape | none |
-| OK | dcim.device — read-only fields are actually returned | 19 propert(ies) marked readOnly: id, url, display_url, display, parent_device, primary_ip, config_context, created | all present in the object |
-| OK | dcim.device — required-on-create fields appear in a real object | required on create: device_type, role, site | all present |
-| OK | dcim.devicetype — fields the schema declares but the object omits | 36 declared propert(ies); 20 of them listed in `required` | none omitted |
-| OK | dcim.devicetype — fields the object carries but the schema does not declare | none; the read component is meant to be the complete response shape | none |
-| OK | dcim.devicetype — read-only fields are actually returned | 17 propert(ies) marked readOnly: id, url, display_url, display, created, last_updated, device_count, console_port_template_count | all present in the object |
-| OK | dcim.devicetype — required-on-create fields appear in a real object | required on create: manufacturer, model, slug | all present |
-| OK | dcim.devicerole — fields the schema declares but the object omits | 20 declared propert(ies); 11 of them listed in `required` | none omitted |
-| OK | dcim.devicerole — fields the object carries but the schema does not declare | none; the read component is meant to be the complete response shape | none |
-| OK | dcim.devicerole — read-only fields are actually returned | 9 propert(ies) marked readOnly: id, url, display_url, display, created, last_updated, device_count, virtualmachine_count | all present in the object |
-| OK | dcim.devicerole — required-on-create fields appear in a real object | required on create: name, slug | all present |
-| OK | dcim.manufacturer — fields the schema declares but the object omits | 17 declared propert(ies); 12 of them listed in `required` | none omitted |
-| OK | dcim.manufacturer — fields the object carries but the schema does not declare | none; the read component is meant to be the complete response shape | none |
-| OK | dcim.manufacturer — read-only fields are actually returned | 10 propert(ies) marked readOnly: id, url, display_url, display, created, last_updated, devicetype_count, moduletype_count | all present in the object |
-| OK | dcim.manufacturer — required-on-create fields appear in a real object | required on create: name, slug | all present |
-| OK | dcim.rack — fields the schema declares but the object omits | 38 declared propert(ies); 10 of them listed in `required` | none omitted |
-| OK | dcim.rack — fields the object carries but the schema does not declare | none; the read component is meant to be the complete response shape | none |
-| OK | dcim.rack — read-only fields are actually returned | 8 propert(ies) marked readOnly: id, url, display_url, display, created, last_updated, device_count, powerfeed_count | all present in the object |
-| OK | dcim.rack — required-on-create fields appear in a real object | required on create: name, site | all present |
-| OK | dcim.interface — fields the schema declares but the object omits | 56 declared propert(ies); 24 of them listed in `required` | none omitted |
-| OK | dcim.interface — fields the object carries but the schema does not declare | none; the read component is meant to be the complete response shape | none |
-| OK | dcim.interface — read-only fields are actually returned | 21 propert(ies) marked readOnly: id, url, display_url, display, bridge_interfaces, mac_address, mac_addresses, cable | all present in the object |
-| OK | dcim.interface — required-on-create fields appear in a real object | required on create: device, name, type | all present |
-| OK | dcim.cable — fields the schema declares but the object omits | 22 declared propert(ies); 6 of them listed in `required` | none omitted |
-| OK | dcim.cable — fields the object carries but the schema does not declare | none; the read component is meant to be the complete response shape | none |
-| OK | dcim.cable — read-only fields are actually returned | 6 propert(ies) marked readOnly: id, url, display_url, display, created, last_updated | all present in the object |
-| OK | dcim.location — fields the schema declares but the object omits | 22 declared propert(ies); 13 of them listed in `required` | none omitted |
-| OK | dcim.location — fields the object carries but the schema does not declare | none; the read component is meant to be the complete response shape | none |
-| OK | dcim.location — read-only fields are actually returned | 10 propert(ies) marked readOnly: id, url, display_url, display, created, last_updated, rack_count, device_count | all present in the object |
-| OK | dcim.location — required-on-create fields appear in a real object | required on create: name, slug, site | all present |
 | OK | ipam.prefix — fields the schema declares but the object omits | 25 declared propert(ies); 11 of them listed in `required` | none omitted |
 | OK | ipam.prefix — fields the object carries but the schema does not declare | none; the read component is meant to be the complete response shape | none |
 | OK | ipam.prefix — read-only fields are actually returned | 10 propert(ies) marked readOnly: id, url, display_url, display, family, scope, created, last_updated | all present in the object |
 | OK | ipam.prefix — required-on-create fields appear in a real object | required on create: prefix | all present |
-| OK | ipam.ipaddress — fields the schema declares but the object omits | 23 declared propert(ies); 10 of them listed in `required` | none omitted |
-| OK | ipam.ipaddress — fields the object carries but the schema does not declare | none; the read component is meant to be the complete response shape | none |
-| OK | ipam.ipaddress — read-only fields are actually returned | 9 propert(ies) marked readOnly: id, url, display_url, display, family, assigned_object, nat_outside, created | all present in the object |
-| OK | ipam.ipaddress — required-on-create fields appear in a real object | required on create: address | all present |
 | OK | ipam.vlan — fields the schema declares but the object omits | 22 declared propert(ies); 10 of them listed in `required` | none omitted |
 | OK | ipam.vlan — fields the object carries but the schema does not declare | none; the read component is meant to be the complete response shape | none |
 | OK | ipam.vlan — read-only fields are actually returned | 8 propert(ies) marked readOnly: id, url, display_url, display, l2vpn_termination, created, last_updated, prefix_count | all present in the object |
 | OK | ipam.vlan — required-on-create fields appear in a real object | required on create: vid, name | all present |
-| OK | ipam.vrf — fields the schema declares but the object omits | 19 declared propert(ies); 9 of them listed in `required` | none omitted |
-| OK | ipam.vrf — fields the object carries but the schema does not declare | none; the read component is meant to be the complete response shape | none |
-| OK | ipam.vrf — read-only fields are actually returned | 8 propert(ies) marked readOnly: id, url, display_url, display, created, last_updated, ipaddress_count, prefix_count | all present in the object |
-| OK | ipam.vrf — required-on-create fields appear in a real object | required on create: name | all present |
-| OK | tenancy.tenant — fields the schema declares but the object omits | 24 declared propert(ies); 18 of them listed in `required` | none omitted |
-| OK | tenancy.tenant — fields the object carries but the schema does not declare | none; the read component is meant to be the complete response shape | none |
-| OK | tenancy.tenant — read-only fields are actually returned | 16 propert(ies) marked readOnly: id, url, display_url, display, created, last_updated, circuit_count, device_count | all present in the object |
-| OK | tenancy.tenant — required-on-create fields appear in a real object | required on create: name, slug | all present |
-| OK | virtualization.virtualmachine — fields the schema declares but the object omits | 33 declared propert(ies); 11 of them listed in `required` | none omitted |
-| OK | virtualization.virtualmachine — fields the object carries but the schema does not declare | none; the read component is meant to be the complete response shape | none |
-| OK | virtualization.virtualmachine — read-only fields are actually returned | 10 propert(ies) marked readOnly: id, url, display_url, display, primary_ip, created, last_updated, interface_count | all present in the object |
-| OK | virtualization.virtualmachine — required-on-create fields appear in a real object | required on create: name | all present |
-| OK | virtualization.cluster — fields the schema declares but the object omits | 24 declared propert(ies); 14 of them listed in `required` | none omitted |
-| OK | virtualization.cluster — fields the object carries but the schema does not declare | none; the read component is meant to be the complete response shape | none |
-| OK | virtualization.cluster — read-only fields are actually returned | 12 propert(ies) marked readOnly: id, url, display_url, display, scope, created, last_updated, device_count | all present in the object |
-| OK | virtualization.cluster — required-on-create fields appear in a real object | required on create: name, type | all present |
-| OK | circuits.circuit — fields the object carries but the schema does not declare | none; the read component is meant to be the complete response shape | none |
-| OK | circuits.circuit — read-only fields are actually returned | 8 propert(ies) marked readOnly: id, url, display_url, display, termination_a, termination_z, created, last_updated | all present in the object |
-| OK | circuits.circuit — required-on-create fields appear in a real object | required on create: cid, provider, type | all present |
-| OK | circuits.provider — fields the schema declares but the object omits | 16 declared propert(ies); 9 of them listed in `required` | none omitted |
-| OK | circuits.provider — fields the object carries but the schema does not declare | none; the read component is meant to be the complete response shape | none |
-| OK | circuits.provider — read-only fields are actually returned | 7 propert(ies) marked readOnly: id, url, display_url, display, created, last_updated, circuit_count | all present in the object |
-| OK | circuits.provider — required-on-create fields appear in a real object | required on create: name, slug | all present |
-| OK | extras.tag — fields the schema declares but the object omits | 13 declared propert(ies); 9 of them listed in `required` | none omitted |
-| OK | extras.tag — fields the object carries but the schema does not declare | none; the read component is meant to be the complete response shape | none |
-| OK | extras.tag — read-only fields are actually returned | 7 propert(ies) marked readOnly: id, url, display_url, display, tagged_items, created, last_updated | all present in the object |
-| OK | extras.tag — required-on-create fields appear in a real object | required on create: name, slug | all present |
-| OK | users.user — fields the schema declares but the object omits | 13 declared propert(ies); 5 of them listed in `required` | none omitted |
-| OK | users.user — fields the object carries but the schema does not declare | none; the read component is meant to be the complete response shape | none |
-| OK | users.user — read-only fields are actually returned | 4 propert(ies) marked readOnly: id, url, display_url, display | all present in the object |
 
 ### 5. Enum values
 
 | | Check | Derived | Actual |
 | --- | ----- | ------- | ------ |
-| INFO | enum coverage | every enum field on every sampled type that carried a value | 20 field value(s) across 20 object(s) |
+| INFO | enum coverage | every enum field on every sampled type that carried a value | 3 field value(s) across 3 object(s) |
 | OK | dcim.site.status | one of: planned, staging, active, decommissioning, retired | returned "active" |
-| OK | dcim.device.face | one of: front, rear,  | returned "front" |
-| OK | dcim.device.status | one of: offline, active, planned, staged, failed, inventory, decommissioning | returned "active" |
-| OK | dcim.device.airflow | one of: front-to-rear, rear-to-front, left-to-right, right-to-left, side-to-rear, rear-to-side, bottom-to-top, top-to-bottom, passive, mixed,  | returned "front-to-rear" |
-| OK | dcim.devicetype.weight_unit | one of: kg, g, lb, oz,  | returned "lb" |
-| OK | dcim.rack.status | one of: reserved, available, planned, active, deprecated | returned "active" |
-| OK | dcim.rack.form_factor | one of: 2-post-frame, 4-post-frame, 4-post-cabinet, wall-frame, wall-frame-vertical, wall-cabinet, wall-cabinet-vertical,  | returned "2-post-frame" |
-| OK | dcim.rack.airflow | one of: front-to-rear, rear-to-front,  | returned "front-to-rear" |
-| OK | dcim.interface.type | one of: virtual, bridge, lag, 100base-fx, 100base-lfx, 100base-tx, 100base-t1, 1000base-bx10-d, 1000base-bx10-u, 1000base-cwdm, 1000base-cx, 1000base-dwdm, 1000base-ex, 1000base-lsx, 1000base-lx, 1000base-lx10, 1000base-sx, 1000base-t, 1000base-tx, 1000base-zx, 2.5gbase-t, 5gbase-t, 10gbase-br-d, 10gbase-br-u, 10gbase-cu, 10gbase-cx4, 10gbase-er, 10gbase-lr, 10gbase-lrm, 10gbase-lx4, 10gbase-sr, 10gbase-t, 10gbase-zr, 25gbase-cr, 25gbase-er, 25gbase-lr, 25gbase-sr, 25gbase-t, 40gbase-cr4, 40gbase-er4, 40gbase-fr4, 40gbase-lr4, 40gbase-sr4, 40gbase-sr4-bd, 50gbase-cr, 50gbase-er, 50gbase-fr, 50gbase-lr, 50gbase-sr, 100gbase-cr1, 100gbase-cr2, 100gbase-cr4, 100gbase-cr10, 100gbase-cwdm4, 100gbase-dr, 100gbase-er4, 100gbase-fr1, 100gbase-lr1, 100gbase-lr4, 100gbase-sr1, 100gbase-sr1.2, 100gbase-sr2, 100gbase-sr4, 100gbase-sr10, 100gbase-zr, 200gbase-cr2, 200gbase-cr4, 200gbase-dr4, 200gbase-er4, 200gbase-fr4, 200gbase-lr4, 200gbase-sr2, 200gbase-sr4, 200gbase-vr2, 400gbase-cr4, 400gbase-dr4, 400gbase-er8, 400gbase-fr4, 400gbase-fr8, 400gbase-lr4, 400gbase-lr8, 400gbase-sr4, 400gbase-sr4_2, 400gbase-sr8, 400gbase-sr16, 400gbase-vr4, 400gbase-zr, 800gbase-cr8, 800gbase-dr8, 800gbase-sr8, 800gbase-vr8, 1.6tbase-cr8, 1.6tbase-dr8, 1.6tbase-dr8-2, 100base-x-sfp, 1000base-x-gbic, 1000base-x-sfp, 2.5gbase-x-sfp, 10gbase-x-sfpp, 10gbase-x-xenpak, 10gbase-x-xfp, 10gbase-x-x2, 25gbase-x-sfp28, 40gbase-x-qsfpp, 50gbase-x-sfp28, 50gbase-x-sfp56, 100gbase-x-cfp, 100gbase-x-cfp2, 100gbase-x-cfp4, 100gbase-x-cxp, 100gbase-x-cpak, 100gbase-x-dsfp, 100gbase-x-qsfp28, 100gbase-x-qsfpdd, 100gbase-x-sfpdd, 200gbase-x-cfp2, 200gbase-x-qsfp56, 200gbase-x-qsfpdd, 400gbase-x-qsfp112, 400gbase-x-qsfpdd, 400gbase-x-cdfp, 400gbase-x-cfp2, 400gbase-x-cfp8, 400gbase-x-osfp, 400gbase-x-osfp-rhs, 800gbase-x-osfp, 800gbase-x-qsfpdd, 1.6tbase-x-osfp1600, 1.6tbase-x-osfp1600-rhs, 1.6tbase-x-qsfpdd1600, 1000base-kx, 2.5gbase-kx, 5gbase-kr, 10gbase-kr, 10gbase-kx4, 25gbase-kr, 40gbase-kr4, 50gbase-kr, 100gbase-kp4, 100gbase-kr2, 100gbase-kr4, 1.6tbase-kr8, ieee802.11a, ieee802.11g, ieee802.11n, ieee802.11ac, ieee802.11ad, ieee802.11ax, ieee802.11ay, ieee802.11be, ieee802.15.1, ieee802.15.4, other-wireless, gsm, cdma, lte, 4g, 5g, sonet-oc3, sonet-oc12, sonet-oc48, sonet-oc192, sonet-oc768, sonet-oc1920, sonet-oc3840, 1gfc-sfp, 2gfc-sfp, 4gfc-sfp, 8gfc-sfpp, 16gfc-sfpp, 32gfc-sfp28, 32gfc-sfpp, 64gfc-qsfpp, 64gfc-sfpdd, 64gfc-sfpp, 128gfc-qsfp28, infiniband-sdr, infiniband-ddr, infiniband-qdr, infiniband-fdr10, infiniband-fdr, infiniband-edr, infiniband-hdr, infiniband-ndr, infiniband-xdr, t1, e1, t3, e3, xdsl, docsis, moca, bpon, epon, 10g-epon, gpon, xg-pon, xgs-pon, ng-pon2, 25g-pon, 50g-pon, cisco-stackwise, cisco-stackwise-plus, cisco-flexstack, cisco-flexstack-plus, cisco-stackwise-80, cisco-stackwise-160, cisco-stackwise-320, cisco-stackwise-480, cisco-stackwise-1t, juniper-vcp, extreme-summitstack, extreme-summitstack-128, extreme-summitstack-256, extreme-summitstack-512, other | returned "1000base-t" |
-| OK | dcim.cable.type | one of: cat3, cat5, cat5e, cat6, cat6a, cat7, cat7a, cat8, mrj21-trunk, dac-active, dac-passive, coaxial, rg-6, rg-8, rg-11, rg-59, rg-62, rg-213, lmr-100, lmr-200, lmr-400, mmf, mmf-om1, mmf-om2, mmf-om3, mmf-om4, mmf-om5, smf, smf-os1, smf-os2, aoc, power, usb,  | returned "mmf-om4" |
-| OK | dcim.cable.status | one of: connected, planned, decommissioning | returned "connected" |
-| OK | dcim.cable.length_unit | one of: km, m, cm, mi, ft, in,  | returned "ft" |
-| OK | dcim.location.status | one of: planned, staging, active, decommissioning, retired | returned "active" |
-| OK | ipam.prefix.status | one of: container, active, reserved, deprecated | returned "active" |
-| OK | ipam.ipaddress.status | one of: active, reserved, deprecated, dhcp, slaac | returned "active" |
+| OK | ipam.prefix.status | one of: container, active, reserved, deprecated | returned "container" |
 | OK | ipam.vlan.status | one of: active, reserved, deprecated | returned "active" |
-| OK | virtualization.virtualmachine.status | one of: offline, active, planned, staged, failed, decommissioning, paused | returned "active" |
-| OK | virtualization.virtualmachine.start_on_boot | one of: on, off, laststate | returned "off" |
-| OK | virtualization.cluster.status | one of: planned, staging, active, decommissioning, offline | returned "active" |
-| OK | circuits.circuit.status | one of: planned, provisioning, active, offline, deprovisioning, decommissioned | returned "active" |
 
 ### 6. Filters
 
 | | Check | Derived | Actual |
 | --- | ----- | ------- | ------ |
-| INFO | dcim.site filter summarisation | the `__`-suffixed lookup variants are elided and replaced by filterGrammar | 38 filter(s) advertised; 38 filters shown; 120 lookup-suffix variants elided. |
-| INFO | filter probes ran against | any type holding at least one object | dcim.site (3 object(s)) |
-| INFO | unknown query parameter | ignored, HTTP 200, unfiltered collection — the premise for read.ts rejecting unknown filter names locally | HTTP 200, count=3 vs unfiltered 3 — NetBox IGNORED it |
+| INFO | dcim.site filter summarisation | the `__`-suffixed lookup variants are elided and replaced by filterGrammar | 41 filter(s) advertised; 41 filters shown; 122 lookup-suffix variants elided. |
+| INFO | filter probes ran against | any type holding at least one object | dcim.site (1 object(s)) |
+| INFO | unknown query parameter | ignored, HTTP 200, unfiltered collection — the premise for read.ts rejecting unknown filter names locally | HTTP 200, count=1 vs unfiltered 1 — NetBox IGNORED it |
 | INFO | known choice filter, value outside the enum (status=…) | 400 with a message naming the valid choices | HTTP 400: {"status":["Select a valid choice. nb_mcp_not_a_status is not one of the available choices."]} |
-| INFO | limit=1000 (constants.ts MAX_LIMIT) | up to 1000 rows returned; MAX_LIMIT assumes NetBox's default MAX_PAGE_SIZE | HTTP 200, count=3, 3 row(s) returned |
-| OK | dcim.site?slug=<real value> narrows the result set | fewer results than the unfiltered 3, and every row matching | HTTP 200, count=1, 1 row(s), all matching: true |
-| OK | the derived parameter set can catch what NetBox will not | every advertised filter is in the validated set, the `__` variants are too, and a bogus name is not | 158 name(s) validated against; bogus name present: false; advertised names missing: none; lookup variants included: true |
+| INFO | limit=1000 (constants.ts MAX_LIMIT) | up to 1000 rows returned; MAX_LIMIT assumes NetBox's default MAX_PAGE_SIZE | HTTP 200, count=1, 1 row(s) returned |
+| OK | dcim.site?slug=<real value> narrows the result set | fewer results than the unfiltered 1, and every row matching | HTTP 200, count=1, 1 row(s), all matching: true |
+| OK | the derived parameter set can catch what NetBox will not | every advertised filter is in the validated set, the `__` variants are too, and a bogus name is not | 163 name(s) validated against; bogus name present: false; advertised names missing: none; lookup variants included: true |
 | OK | known filter, malformed value (id=not-an-integer) | 400; errors.ts maps 400 to 'check that required fields are provided' | HTTP 400: {"id":["Enter a whole number."]} |
 | OK | brief=true returns a compact object | describe's list note tells models 'brief=true for a compact form' | HTTP 200, 6 field(s): id, url, display, name, slug, description |
 
@@ -493,7 +431,7 @@ Everything the suite looked at, including the checks that passed.
 | OK | GET a nonexistent object id | 404 — errors.ts: 'NetBox object not found (404)' | HTTP 404; body {detail} — {"detail":"No Site matches the given query."} |
 | OK | error body carries a `detail` string | extractNetBoxMessage reads `detail` first, then field->array pairs, then plain strings | detail = No Site matches the given query. |
 | OK | GET an endpoint that does not exist | 404 — this is the status a derivation bug produces, so it must be distinguishable | HTTP 404; content-type text/html; charset=utf-8 |
-| OK | the 404 body errors.ts would relay is bounded | no markup and at most a few hundred characters, however large the page NetBox served | page was 9901 byte(s); errors.ts produced 267 character(s): Error: NetBox object not found (404). Verify the ID/slug is correct. NetBox returned an HTML page (9897 characters) instead of a JSON error body; it is not relayed. This usually means the URL did not… |
+| OK | the 404 body errors.ts would relay is bounded | no markup and at most a few hundred characters, however large the page NetBox served | page was 10212 byte(s); errors.ts produced 268 character(s): Error: NetBox object not found (404). Verify the ID/slug is correct. NetBox returned an HTML page (10208 characters) instead of a JSON error body; it is not relayed. This usually means the URL did no… |
 
 ### 8. Write refusal
 
@@ -506,23 +444,10 @@ Everything the suite looked at, including the checks that passed.
 
 | | Check | Derived | Actual |
 | --- | ----- | ------- | ------ |
-| INFO | /api/status/ plugins | unknown — the derivation was verified against a stock NetBox with no plugins (§17) | netbox_inventory@2.6.0 |
-| INFO | plugin paths in /api/schema/ | none on stock NetBox; the classifier expects /api/plugins/<plugin>/<slug>/ | 31 path(s): /api/plugins/inventory/asset-roles/, /api/plugins/inventory/asset-roles/{id}/, /api/plugins/inventory/assets/, /api/plugins/inventory/assets/{id}/, /api/plugins/inventory/audit-flowpage-assignments/, /api/plugins/inventory/audit-flowpage-assignments/{id}/, /api/plugins/inventory/audit-flowpages/, /api/plugins/inventory/audit-flowpages/{id}/, /api/plugins/inventory/audit-flows/, /api/plugins/inventory/audit-flows/{id}/, /api/plugins/inventory/audit-trail-sources/, /api/plugins/inventory/audit-trail-sources/{id}/, /api/plugins/inventory/audit-trails/, /api/plugins/inventory/audit-trails/{id}/, /api/plugins/inventory/dcim/devices/, /api/plugins/inventory/dcim/devices/{id}/, /api/plugins/inventory/dcim/devices/{id}/render-config/, /api/plugins/inventory/dcim/inventory-items/, /api/plugins/inventory/dcim/inventory-items/{id}/, /api/plugins/inventory/dcim/modules/, … |
-| INFO | object types derived under plugins.* | `plugins.<plugin>.<model>` keys, produced by the same rule as core types | plugins.inventory.assetrole, plugins.inventory.asset, plugins.inventory.auditflowpageassignment, plugins.inventory.auditflowpage, plugins.inventory.auditflow, plugins.inventory.audittrailsource, plugins.inventory.audittrail, plugins.inventory.delivery, plugins.inventory.inventoryitemgroup, plugins.inventory.inventoryitemtype, plugins.inventory.purchase, plugins.inventory.supplier |
-| INFO | GET /api/plugins/ | unverified | HTTP 200: {"installed-plugins":"https://netbox.zenixsolutions.com/api/plugins/installed-plugins/","inventory":"https://netbox.zenixsolutions.com/api/plugins/inventory/"} |
-| INFO | hard-coded search target /api/plugins/inventory/assets/ | search.ts fans every netbox_global_search out to this endpoint whether or not the plugin is installed | HTTP 200 — present and derived as plugins.inventory.asset |
-| INFO | plugins.inventory.assetrole schema resolution | write schema resolved by $ref from the operation, never by name | write=WritableAssetRoleRequest (from detail-put), patch=PatchedWritableAssetRoleRequest, read=AssetRole, ops=[list,get,create,update,delete] |
-| INFO | plugins.inventory.asset schema resolution | write schema resolved by $ref from the operation, never by name | write=AssetRequest (from detail-put), patch=PatchedAssetRequest, read=Asset, ops=[list,get,create,update,delete] |
-| INFO | plugins.inventory.auditflowpageassignment schema resolution | write schema resolved by $ref from the operation, never by name | write=AuditFlowPageAssignmentRequest (from detail-put), patch=PatchedAuditFlowPageAssignmentRequest, read=AuditFlowPageAssignment, ops=[list,get,create,update,delete] |
-| INFO | plugins.inventory.auditflowpage schema resolution | write schema resolved by $ref from the operation, never by name | write=AuditFlowPageRequest (from detail-put), patch=PatchedAuditFlowPageRequest, read=AuditFlowPage, ops=[list,get,create,update,delete] |
-| INFO | plugins.inventory.auditflow schema resolution | write schema resolved by $ref from the operation, never by name | write=AuditFlowRequest (from detail-put), patch=PatchedAuditFlowRequest, read=AuditFlow, ops=[list,get,create,update,delete] |
-| INFO | plugins.inventory.audittrailsource schema resolution | write schema resolved by $ref from the operation, never by name | write=AuditTrailSourceRequest (from detail-put), patch=PatchedAuditTrailSourceRequest, read=AuditTrailSource, ops=[list,get,create,update,delete] |
-| INFO | plugins.inventory.audittrail schema resolution | write schema resolved by $ref from the operation, never by name | write=AuditTrailRequest (from detail-put), patch=PatchedAuditTrailRequest, read=AuditTrail, ops=[list,get,create,update,delete] |
-| INFO | plugins.inventory.delivery schema resolution | write schema resolved by $ref from the operation, never by name | write=DeliveryRequest (from detail-put), patch=PatchedDeliveryRequest, read=Delivery, ops=[list,get,create,update,delete] |
-| INFO | plugins.inventory.inventoryitemgroup schema resolution | write schema resolved by $ref from the operation, never by name | write=WritableInventoryItemGroupRequest (from detail-put), patch=PatchedWritableInventoryItemGroupRequest, read=InventoryItemGroup, ops=[list,get,create,update,delete] |
-| INFO | plugins.inventory.inventoryitemtype schema resolution | write schema resolved by $ref from the operation, never by name | write=InventoryItemTypeRequest (from detail-put), patch=PatchedInventoryItemTypeRequest, read=InventoryItemType, ops=[list,get,create,update,delete] |
-| INFO | plugins.inventory.purchase schema resolution | write schema resolved by $ref from the operation, never by name | write=PurchaseRequest (from detail-put), patch=PatchedPurchaseRequest, read=Purchase, ops=[list,get,create,update,delete] |
-| INFO | plugins.inventory.supplier schema resolution | write schema resolved by $ref from the operation, never by name | write=SupplierRequest (from detail-put), patch=PatchedSupplierRequest, read=Supplier, ops=[list,get,create,update,delete] |
+| N/A | plugin write-schema resolution | third-party serializers may not follow the Writable*/Brief* naming the core does | not checked — no plugin object types derived on this instance |
+| INFO | /api/status/ plugins | unknown — the derivation was verified against a stock NetBox with no plugins (§17) | no plugins installed |
+| INFO | plugin paths in /api/schema/ | none on stock NetBox; the classifier expects /api/plugins/<plugin>/<slug>/ | none |
+| INFO | object types derived under plugins.* | `plugins.<plugin>.<model>` keys, produced by the same rule as core types | none |
 
 ---
 

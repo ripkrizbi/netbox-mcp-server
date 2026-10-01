@@ -16,33 +16,10 @@ import type { CallToolResult } from "@modelcontextprotocol/sdk/types.js";
 import { z } from "zod";
 
 import { getClient, type PaginatedResponse } from "../../client.js";
+import type { SchemaProvider } from "../../schema/types.js";
 import { displayRef, ResponseFormat, toDisplayString } from "../../formatting.js";
 import { ResponseFormatField } from "../../schemas/common.js";
 import { clampText, errorResult, textResult, toErrorText } from "./shared.js";
-
-const SEARCH_TARGETS: { endpoint: string; label: string }[] = [
-  { endpoint: "dcim/sites", label: "sites" },
-  { endpoint: "dcim/racks", label: "racks" },
-  { endpoint: "dcim/devices", label: "devices" },
-  { endpoint: "dcim/interfaces", label: "interfaces" },
-  { endpoint: "ipam/prefixes", label: "prefixes" },
-  { endpoint: "ipam/ip-addresses", label: "ip_addresses" },
-  { endpoint: "ipam/vlans", label: "vlans" },
-  { endpoint: "ipam/vrfs", label: "vrfs" },
-  { endpoint: "plugins/inventory/assets", label: "assets" },
-];
-
-const RESOURCE_LABELS = [
-  "sites",
-  "racks",
-  "devices",
-  "interfaces",
-  "prefixes",
-  "ip_addresses",
-  "vlans",
-  "vrfs",
-  "assets",
-] as const;
 
 const Input = {
   query: z
@@ -58,13 +35,13 @@ const Input = {
     .default(5)
     .describe("Max hits to return per resource (1-50, default 5)."),
   resources: z
-    .array(z.enum(RESOURCE_LABELS))
+    .array(z.string().min(1))
     .optional()
-    .describe("If provided, restrict the search to these resource labels."),
+    .describe("If provided, restrict the search to these NetBox object types (for example `dcim.device` or `plugins.inventory.asset`)."),
   response_format: ResponseFormatField,
 };
 
-const DESCRIPTION = `**Finds a named thing when you do not know what type it is.** One call, across sites, racks, devices, interfaces, prefixes, IP addresses, VLANs and VRFs.
+const DESCRIPTION = `**Finds a named thing when you do not know what type it is.** One call, across the listable object types exposed by the connected NetBox instance.
 
 Use this the moment a request contains a specific identifier — a hostname, a partial name, an IP or prefix, a VLAN name, a serial. "What's the management IP for sw-core-01?", "where is rack R12?", "what is 10.0.4.7?" all start here. It returns each hit's numeric id, which you hand straight to netbox_read (operation='get') or netbox_write.
 
@@ -75,7 +52,7 @@ Use netbox_discover instead when you need to know which object *types* exist, an
 Args:
   - query (string, required)         the text to search for.
   - limit_per_resource (number)      max hits per resource (default 5).
-  - resources (string[])             restrict to a subset of resource labels.
+  - resources (string[])             restrict to a subset of NetBox object-type keys exposed by netbox_discover.
   - response_format ('markdown' | 'json')
 
 Returns hits grouped by resource with per-resource totals and each hit's numeric id. A resource with no matches is reported as empty, not as an error.`;
@@ -87,7 +64,7 @@ interface SectionResult {
   error?: string;
 }
 
-export function registerLayeredSearch(server: McpServer): void {
+export function registerLayeredSearch(server: McpServer, schema: SchemaProvider): void {
   server.registerTool(
     "netbox_global_search",
     {
@@ -104,10 +81,15 @@ export function registerLayeredSearch(server: McpServer): void {
     async (args): Promise<CallToolResult> => {
       try {
         const client = getClient();
-        const selected: readonly string[] | undefined = args.resources;
-        const targets = selected
-          ? SEARCH_TARGETS.filter((t) => selected.includes(t.label))
-          : SEARCH_TARGETS;
+        const objectTypes = await schema.listObjectTypes();
+        const selected = args.resources;
+        const targets = objectTypes
+          .filter((t) => selected === undefined || selected.includes(t.object_type))
+          .filter((t) => t.operations.includes("list"))
+          .map((t) => ({
+            endpoint: t.endpoint,
+            label: t.object_type,
+          }));
 
         const settled = await Promise.allSettled(
           targets.map(async (t) => {

@@ -274,7 +274,7 @@ $LASTEXITCODE
 themselves:
 
 ```sh
-curl -sS -H "Authorization: Token $NETBOX_TOKEN" \
+curl -sS -H "Authorization: Bearer $NETBOX_TOKEN" \
   "$NETBOX_URL/api/dcim/sites/?limit=1" | head -c 200
 ```
 
